@@ -38,7 +38,7 @@ Access Node-Red at:
 - Flow management: http://localhost:1880/
 - Dashboard view: http://localhost:1880/ui
 
-# Explanation of the files
+## Explanation of the files
 
 src/camera.py: Contains the camera class. 
 
