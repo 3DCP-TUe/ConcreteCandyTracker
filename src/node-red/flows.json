@@ -1,0 +1,732 @@
+[
+    {
+        "id": "eb873eabcf0c325c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "88c1cfc3ea8f28e0",
+        "type": "OpcUa-Client",
+        "z": "eb873eabcf0c325c",
+        "endpoint": "72148c59cec0103e",
+        "action": "read",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "folderName4PKI": "",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "",
+        "x": 720,
+        "y": 300,
+        "wires": [
+            [
+                "bfc6afe4ec4369dc"
+            ]
+        ]
+    },
+    {
+        "id": "5bcf2ed107cc7d89",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Color value R",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "r",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "ns=2;i=2",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 300,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "f2cdbdf744c8871b",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Color value G",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "g",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "ns=2;i=3",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 340,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "424c2b9251551c63",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Color value B",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "b",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "ns=2;i=2",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 380,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "12967f95894e5c79",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Color value L*",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "l_star",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "ns=2;i=8",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 420,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "b2bc4ab5a2b1d328",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Color value a*",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "a_star",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "ns=2;i=9",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 460,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "f12ba8f3459fad6c",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Color value b*",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "b_star",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "ns=2;i=10",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 500,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "e81f630034a9d555",
+        "type": "ui_text",
+        "z": "eb873eabcf0c325c",
+        "group": "d5fe31f4a765376e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "R",
+        "format": "{{msg.r.toFixed(2)}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1490,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "eca4490d956f9d90",
+        "type": "ui_text",
+        "z": "eb873eabcf0c325c",
+        "group": "d5fe31f4a765376e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "G",
+        "format": "{{msg.g.toFixed(1)}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1490,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "54132515a47fca60",
+        "type": "ui_text",
+        "z": "eb873eabcf0c325c",
+        "group": "d5fe31f4a765376e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "B",
+        "format": "{{msg.b.toFixed(1)}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1490,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "cd74fd9a8e0b84fa",
+        "type": "ui_text",
+        "z": "eb873eabcf0c325c",
+        "group": "d5fe31f4a765376e",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "L*",
+        "format": "{{msg.l_star.toFixed(2)}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1490,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "99fb9acb51226c2a",
+        "type": "ui_text",
+        "z": "eb873eabcf0c325c",
+        "group": "d5fe31f4a765376e",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "a*",
+        "format": "{{msg.a_star.toFixed(2)}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1490,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "fd518abe82ddeb00",
+        "type": "ui_text",
+        "z": "eb873eabcf0c325c",
+        "group": "d5fe31f4a765376e",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "b*",
+        "format": "{{msg.b_star.toFixed(2)}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1490,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "bfc6afe4ec4369dc",
+        "type": "switch",
+        "z": "eb873eabcf0c325c",
+        "name": "Values",
+        "property": "value",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "r",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "g",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "b",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "l_star",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "a_star",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "b_star",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": true,
+        "outputs": 6,
+        "x": 890,
+        "y": 300,
+        "wires": [
+            [
+                "c9fb82be58993cac"
+            ],
+            [
+                "f6bd2cec2451b302"
+            ],
+            [
+                "b010a7a2632692d3"
+            ],
+            [
+                "f8fa993bce8ae231"
+            ],
+            [
+                "1bc1839dccf91953"
+            ],
+            [
+                "ce2efa370993dfd1"
+            ]
+        ]
+    },
+    {
+        "id": "c9fb82be58993cac",
+        "type": "function",
+        "z": "eb873eabcf0c325c",
+        "name": "Function",
+        "func": "msg.r = msg.payload.toString()*1.0\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 260,
+        "wires": [
+            [
+                "e81f630034a9d555"
+            ]
+        ]
+    },
+    {
+        "id": "f6bd2cec2451b302",
+        "type": "function",
+        "z": "eb873eabcf0c325c",
+        "name": "Function",
+        "func": "msg.g = msg.payload.toString()*1.0\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 300,
+        "wires": [
+            [
+                "eca4490d956f9d90"
+            ]
+        ]
+    },
+    {
+        "id": "b010a7a2632692d3",
+        "type": "function",
+        "z": "eb873eabcf0c325c",
+        "name": "Function",
+        "func": "msg.b = msg.payload.toString()*1.0\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 340,
+        "wires": [
+            [
+                "54132515a47fca60"
+            ]
+        ]
+    },
+    {
+        "id": "f8fa993bce8ae231",
+        "type": "function",
+        "z": "eb873eabcf0c325c",
+        "name": "Function",
+        "func": "msg.l_star = msg.payload.toString()*1.0\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 380,
+        "wires": [
+            [
+                "cd74fd9a8e0b84fa",
+                "3bdd65db9dcacc81"
+            ]
+        ]
+    },
+    {
+        "id": "1bc1839dccf91953",
+        "type": "function",
+        "z": "eb873eabcf0c325c",
+        "name": "Function",
+        "func": "msg.a_star = msg.payload.toString()*1.0\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 420,
+        "wires": [
+            [
+                "99fb9acb51226c2a",
+                "9f573cbe5b5dd1c0"
+            ]
+        ]
+    },
+    {
+        "id": "ce2efa370993dfd1",
+        "type": "function",
+        "z": "eb873eabcf0c325c",
+        "name": "Function",
+        "func": "msg.b_star = msg.payload.toString()*1.0\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 460,
+        "wires": [
+            [
+                "fd518abe82ddeb00",
+                "70e6f6b553106ec2"
+            ]
+        ]
+    },
+    {
+        "id": "3bdd65db9dcacc81",
+        "type": "ui_chart",
+        "z": "eb873eabcf0c325c",
+        "name": "",
+        "group": "5d6cf442f081b5b8",
+        "order": 1,
+        "width": "30",
+        "height": "6",
+        "label": "Chart L*",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "600",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#000000",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1500,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f573cbe5b5dd1c0",
+        "type": "ui_chart",
+        "z": "eb873eabcf0c325c",
+        "name": "",
+        "group": "5d6cf442f081b5b8",
+        "order": 1,
+        "width": "30",
+        "height": "6",
+        "label": "Chart a*",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "600",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#ff0000",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1500,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "70e6f6b553106ec2",
+        "type": "ui_chart",
+        "z": "eb873eabcf0c325c",
+        "name": "",
+        "group": "5d6cf442f081b5b8",
+        "order": 1,
+        "width": "30",
+        "height": "6",
+        "label": "Chart b*",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "10",
+        "removeOlderPoints": "600",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#0400ff",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#8400ff",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1500,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "72148c59cec0103e",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://localhost:4840/freeopcua/server/",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "d5fe31f4a765376e",
+        "type": "ui_group",
+        "name": "Color values",
+        "tab": "5971935a47a16e3f",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5d6cf442f081b5b8",
+        "type": "ui_group",
+        "name": "Charts",
+        "tab": "5971935a47a16e3f",
+        "order": 1,
+        "disp": true,
+        "width": "30",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5971935a47a16e3f",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

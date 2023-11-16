@@ -1,0 +1,85 @@
+"""
+This file is part of Concrete Candy Tracker. Concrete Candy Tracker is licensed under the 
+terms of GNU General Public License as published by the Free Software Foundation. For more 
+information and the LICENSE file, see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
+
+Authors: 
+- Arjen Deetman
+  3D Concrete Printing Research Group a Eindhoven University of Technology.
+"""
+
+import asyncio
+import logging
+import threading
+
+from camera import Camera
+from asyncua import Server
+
+async def main():
+    
+    # Logger
+    logger = logging.getLogger(__name__)
+
+    # Setup the server
+    server = Server()
+    await server.init()
+    server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
+
+    # Set up the name space
+    uri = "http://examples.freeopcua.github.io"
+    idx = await server.register_namespace(uri)
+
+    # Populate
+    myobj = await server.nodes.objects.add_object(idx, "Color values")
+    myvar_r = await myobj.add_variable(idx, "R", 0.0)
+    myvar_g = await myobj.add_variable(idx, "G", 0.0)
+    myvar_b = await myobj.add_variable(idx, "B", 0.0)
+    myvar_x = await myobj.add_variable(idx, "X", 0.0)
+    myvar_y = await myobj.add_variable(idx, "Y", 0.0)
+    myvar_z = await myobj.add_variable(idx, "Z", 0.0)
+    myvar_l_star = await myobj.add_variable(idx, "L*", 0.0)
+    myvar_a_star = await myobj.add_variable(idx, "a*", 0.0)
+    myvar_b_star = await myobj.add_variable(idx, "b*", 0.0)
+
+    # Initiate the camera
+    camera = Camera('169.254.1.69')
+
+    # Camera settings
+    camera.set_roi(int(1936/2-848/2), 340, 848, 300)
+    camera.set_white_balance_ratios(1.0, 0.545, 1.257)
+    camera.set_whitepoint(0.938, 0.981, 1.070)
+    camera.set_exposure_time(16000)
+    camera.set_gain(2.70)
+    
+    # Collect data
+    event = threading.Event()
+    thread = threading.Thread(target=camera.start_grabbing, args=(event,))
+    thread.start()
+
+    # Log
+    logger.info("Starting server!")
+    
+    async with server:
+        
+        while True:
+            
+            logger.info("The OPC UA server is still running...")
+
+            await myvar_r.write_value(camera.r)
+            await myvar_g.write_value(camera.g)
+            await myvar_b.write_value(camera.b)
+
+            await myvar_x.write_value(camera.x)
+            await myvar_y.write_value(camera.y)
+            await myvar_z.write_value(camera.z)
+
+            await myvar_l_star.write_value(camera.l_star)
+            await myvar_a_star.write_value(camera.a_star)
+            await myvar_b_star.write_value(camera.b_star)
+
+            await asyncio.sleep(1.0)
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    asyncio.run(main(), debug=True)
