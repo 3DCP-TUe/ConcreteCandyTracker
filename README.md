@@ -2,7 +2,7 @@
 
 Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detailed in the paper titled "An In-line Dye Tracer Experiment for Mixing and Pumping Concrete." The experiment uses a digital image processing (DIP) technique to detect a dye — Rhomadine B — which stains the concrete with a candy cane-like effect.
 
-# Hardware requirements
+## Hardware requirements
 
 The software is optimized for use with the following hardware components at TU/e:
 
@@ -14,9 +14,9 @@ The software is optimized for use with the following hardware components at TU/e
 
 If a different Basler camera is used, it may need adjustments to the camera class.
 
-# Installation
+## Installation
 
-## Python
+### Python
 
 The current release is tested with Python 3.8 and requires the following libraries:
 
@@ -26,7 +26,7 @@ The current release is tested with Python 3.8 and requires the following librari
 
 Additionally, install the Pylon Viewer for visual verification of the region of interest (ROI) and calibrating the orientaton of the polarization filter. 
 
-## Node-red
+### Node-red
 
 Node-Red is optional but recommended for creating a simple live dashboard. Install Node-Red along with the following packages:
 
@@ -50,7 +50,7 @@ scr/node-red/fows.json: A simple dashboard for Node-Red, displaying real-time co
 
 scr/benchmarks/color_transformations.m: MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
-# Calibration procedure / checklist
+## Calibration procedure / checklist
 
 Mounting:
 
@@ -82,7 +82,7 @@ White Point Measurement:
 - Finally, set the measured white point values in the camera class. The white point is used to transform the color values from linear RGB color space to CIELAB color space.
 If all steps are performed correctly, the measured CIELAB color values of an 18% grey card should come close to 50, 0, 0 for L*, a*, and b*, respectively.
 
-# Cite
+## Cite
 
 TODO: Make a zenodo page with DOI. 
 
