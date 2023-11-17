@@ -20,18 +20,18 @@ If a different Basler camera is used, it may need adjustments to the camera clas
 
 The current release is tested with Python 3.8 and requires the following libraries:
 
-- The offical Python wrapper for the camera from Basler: PyPylon
-- To set up an OPC UA server or to write to an OPC UA server: opcua-asyncio
-- For numerical operations: numpy
+- The offical Python wrapper for the camera from Basler: [PyPylon](https://www.baslerweb.com/en-us/software/pylon/pypylon/)
+- To set up an OPC UA server or to write to an OPC UA server: [opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
+- For numerical operations: [numpy](https://numpy.org/)
 
-Additionally, install the Pylon Viewer for visual verification of the region of interest (ROI) and calibrating the orientaton of the polarization filter. 
+Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI) and calibrating the orientaton of the polarization filter. 
 
 ### Node-red
 
-Node-Red is optional but recommended for creating a simple live dashboard. Install Node-Red along with the following packages:
+[Node-Red](https://nodered.org/) is optional but recommended for creating a simple live dashboard. Install Node-Red along with the following packages:
 
-- node-red-contrib-opcua
-- node-red-dashboard
+- [node-red-contrib-opcua](https://flows.nodered.org/node/node-red-contrib-opcua)
+- [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
 
 Access Node-Red at:
 
@@ -40,15 +40,15 @@ Access Node-Red at:
 
 ## Explanation of the files
 
-src/camera.py: Contains the camera class. 
+**[src/camera.py](src/camera.py):** Contains the camera class. 
 
-src/opcua_local_server.py: Sets up a local OPC UA server, captures color values, and makes them available for external access.
+**[src/opcua_local_server.py](src/opcua_local_server.py):** Sets up a local OPC UA server, captures color values, and makes them available for external access.
 
-src/opcua_write_to_server.py: Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
+**[src/opcua_write_to_server.py](src/opcua_write_to_server.py):** Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
 
-scr/node-red/fows.json: A simple dashboard for Node-Red, displaying real-time color values from the local OPC UA server.
+**[scr/node-red/fows.json](scr/node-red/fows.json):** A simple dashboard for Node-Red, displaying real-time color values from the local OPC UA server.
 
-scr/benchmarks/color_transformations.m: MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
+**[scr/benchmarks/color_transformations.m](scr/benchmarks/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
 ## Calibration procedure / checklist
 
