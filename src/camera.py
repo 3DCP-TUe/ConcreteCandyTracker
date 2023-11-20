@@ -12,54 +12,26 @@ import logging
 import numpy as np
 import threading
 import csv
-
+import os
 from datetime import datetime
 from pypylon import pylon
 
-class EventPrinter(pylon.ConfigurationEventHandler):
+# CONSTANTS
+_B11 = 0.4124
+_B12 = 0.3576
+_B13 = 0.1805
+_B21 = 0.2126
+_B22 = 0.7152
+_B23 = 0.0722
+_B31 = 0.0193
+_B32 = 0.1192
+_B33 = 0.9505
+_DELTA = 16.0/116.0
 
-    """"""
-
-    def OnAttach(self, camera):
-        print('Before attaching')
-
-    def OnAttached(self, camera):
-        print('After attaching')
-
-    def OnOpen(self, camera):
-        print('Before opening')
-
-    def OnOpened(self, camera):
-        print('After Opening')
-
-    def OnDestroy(self, camera):
-        print('Before destroying')
-
-    def OnDestroyed(self, camera):
-        print('After destroying')
-
-    def OnClosed(self, camera):
-        print('Camera Closed')
-
-    def OnDetach(self, camera):
-        print('Detaching')
-
-    def OnGrabStarted(self, camera):
-        print('Grab started')
-
-
-class ImageEventPrinter(pylon.ImageEventHandler):
-    
-    """"""
-    
-    def OnImagesSkipped(self, camera, countOfSkippedImages):
-        print('Image skipped')
-
-    def OnImageGrabbed(self, camera, grabResult):
-        print('Image grabbed')
-        
 
 class Camera:
+
+    """Concrete Candy Tracker Camera."""
     
     def __init__(self, ip: str) -> None:
         
@@ -71,11 +43,11 @@ class Camera:
         https://docs.baslerweb.com/pylonapi/net/T_Basler_Pylon_Camera
         """
         
-        self.get_camera(ip)
-        self.open()
+        self.__get_camera(ip)
+        #self.__register_event_handlers()
         self.set_default_camera_settings()
-        self.set_whitepoint()
-        self.set_roi()
+        self.set_whitepoint() # Default: D65
+        self.set_roi() # Default: full resolution
 
         # Latest measured color values
         self.r = 0.0
@@ -88,57 +60,21 @@ class Camera:
         self.a_star = 0.0
         self.b_star = 0.0
 
-        # Write to .csv file
-        self.write = True
-        self.file_name = "D:/GitHub/TracerLogger/log/test.csv"
-
-        # Write header
-        if self.write == True:
-            with open(self.file_name, 'a', newline='') as file:
-                writer = csv.writer(file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow(["Time", "R", "G", "B", "X", "Y", "Z", "L*", "a*", "b*"])
-        
-        # Constants for color transformations
-        ## RGB to XYZ
-        self.__b11 = 0.4124
-        self.__b12 = 0.3576
-        self.__b13 = 0.1805
-        self.__b21 = 0.2126
-        self.__b22 = 0.7152
-        self.__b23 = 0.0722
-        self.__b31 = 0.0193
-        self.__b32 = 0.1192
-        self.__b33 = 0.9505
-        ## XYZ to LAB
-        self.__DELTA = 16.0/116.0
+        # Write to CSV file
+        self.write_to_database = False
+        self.__database = ""
 
 
     def __str__(self) -> str:
 
-        """
-        Print string function.
-        """
+        """Print string function."""
 
-        return "<" + "Camera" +  ">"
+        return "<Concrete Candy Tracker Camera>"
 
 
-    def reset(self) -> None:
+    def __get_camera(self, ip: str) -> None:
 
-        """
-        Reset to initial settings.
-        """
-
-        self.open()
-        self.set_whitepoint()
-        self.set_default_camera_settings()
-        self.set_roi()
-
-
-    def get_camera(self, ip: str) -> None:
-
-        """
-        Gets the Basler camera instance.
-        """
+        """Gets the Basler camera instance."""
         
         factory = pylon.TlFactory.GetInstance()
         tl = factory.CreateTl('BaslerGigE')
@@ -147,22 +83,28 @@ class Camera:
         self.camera = pylon.InstantCamera(factory.CreateDevice(camera_info))
 
 
-    def register_event_handlers(self) -> None:
+    def __register_event_handlers(self) -> None:
 
-        """
-        Registers the event handlers. 
-        """
-            
+        """Registers the event handlers."""
+
         self.open()
-        self.camera.RegisterImageEventHandler(ImageEventPrinter(), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
-        self.camera.RegisterConfiguration(EventPrinter(), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
+        self.camera.RegisterImageEventHandler(ImageEventHandler(self), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
+        self.camera.RegisterConfiguration(ConfigurationEventHandler(self), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
+
+
+    def reset(self) -> None:
+
+        """Reset to initial settings."""
+
+        self.open()
+        self.set_whitepoint()
+        self.set_default_camera_settings()
+        self.set_roi()
 
 
     def open(self) -> None:
 
-        """
-        Opens the camera.
-        """
+        """Opens the camera."""
 
         if self.camera.IsOpen() == False:
             self.camera.Open()
@@ -170,9 +112,7 @@ class Camera:
 
     def close(self) -> None:
 
-        """
-        Closes the camera. 
-        """
+        """Closes the camera."""
 
         if self.camera.IsOpen():
             self.camera.Close()
@@ -180,19 +120,15 @@ class Camera:
 
     def get_temp(self) -> float:
         
-        """
-        Returns the sensor temperature.
-        """
+        """Returns the sensor temperature."""
 
+        self.open()
         return self.camera.DeviceTemperature.GetValue()
 
 
     def set_roi(self, offset_x: int=0, offset_y: int=0 , width: int=None, height: int=None) -> None:
         
-        """
-        Default is the full resolution.
-        Values must be divisible by 4. 
-        """
+        """Sets the region of interest. Default is the full resolution. Values must be divisible by 4."""
 
         self.open()   
 
@@ -418,19 +354,14 @@ class Camera:
 
     def get_resulting_frame_rate(self) -> float:
         
-        """
-        Returns the resulting frame rate. 
-        """
+        """Returns the resulting frame rate."""
         
         return self.camera.ResultingFrameRate.GetValue()
     
     
     def grab(self, n : float) -> None:
         
-        """
-        This function grabs a certain amount of images. 
-        Set a negative value to run without a limit. 
-        """
+        """Grabs a certain amount of images. Set a negative value to run without a limit."""
 
         if self.camera != None:
             
@@ -452,10 +383,18 @@ class Camera:
                         self.camera.StopGrabbing()
 
 
+    def stop_grabbing(self) -> None:
+        
+        """Stops grabbing images."""
+
+        if self.camera.IsGrabbing():
+            self.camera.StopGrabbing()
+    
+
     def start_grabbing(self, event : threading.Event) -> None:
 
         """
-        This functions keeps grabbing images until the event parameter is set. 
+        Keeps grabbing images until the event parameter is set.
 
         Example code:
         
@@ -485,8 +424,7 @@ class Camera:
 
                 grab_result = self.camera.RetrieveResult(1000, pylon.TimeoutHandling_Return)
 
-                if grab_result.GrabSucceeded():
-                    
+                if grab_result.GrabSucceeded():   
                     self.__substract_data(grab_result)
 
                 if event.is_set():
@@ -495,6 +433,8 @@ class Camera:
 
     
     def __substract_data(self, grab_result: pylon.GrabResult) -> None:
+        
+        """Processes the grab result and stores the data."""
 
         # Get the image
         img = grab_result.GetArray().flatten() # shape of [w x b x 3]
@@ -531,64 +471,50 @@ class Camera:
         self.a_star = a_star
         self.b_star = b_star
 
-        # Print data (debug): replace for logger.DEBUG?
-        print(date, r, g, b, x, y, z, l_star, a_star, b_star)
+        # Log
+        logging.info("{0}, R={1:.1f}, G={2:.1f}, B={3:.1f}, X={4:.4f}, Y={5:.4f}, Z={6:.4f}, L*={7:.4f}, a*={8:.4f}, b*={9:.4f}".format(date, r, g, b, x, y, z, l_star, a_star, b_star))
 
-        # Write data to .csv file
-        if self.write == True:
-            with open(self.file_name, 'a', newline='') as file:
+        # Write data to CSV database
+        if self.write_to_database == True:
+            with open(self.__database, 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow([date, r, g, b, x, y, z, l_star, a_star, b_star])
-
-
-    def stop_grabbing(self) -> None:
-        
-        """
-        Stops grabbing images.
-        """
-
-        if self.camera.IsGrabbing():
-            self.camera.StopGrabbing()
+                writer.writerow([date, "{0:.3f}".format(r), "{0:.3f}".format(g), "{0:.3f}".format(b), "{0:.6f}".format(x), "{0:.6f}".format(y), "{0:.6f}".format(z), "{0:.6f}".format(l_star), "{0:.6f}".format(a_star), "{0:.6f}".format(b_star)])
 
 
     def rgb2xyz(self, rgb: np.ndarray) -> np.ndarray:
 
-        """
-        Converts the color from linear RGB to CIEXYZ color space.
-        """
+        """Converts the color value from linear RGB to CIEXYZ color space."""
 
         r = rgb[0]/255
         g = rgb[1]/255
         b = rgb[2]/255
 
         xyz = np.zeros(3)
-        xyz[0] = self.__b11*r + self.__b12*g + self.__b13*b
-        xyz[1] = self.__b21*r + self.__b22*g + self.__b23*b
-        xyz[2] = self.__b31*r + self.__b32*g + self.__b33*b
+        xyz[0] = _B11*r + _B12*g + _B13*b
+        xyz[1] = _B21*r + _B22*g + _B23*b
+        xyz[2] = _B31*r + _B32*g + _B33*b
 
         return xyz
     
 
     def xyz2lab(self, xyz: np.ndarray) -> np.ndarray:
     
-        """
-        Converts the color from CIEXYZ to CIELAB color space.
-        """
+        """Converts the color values from CIEXYZ to CIELAB color space."""
 
-        if xyz[0]/self.whitepoint[0] > self.__DELTA**3.0:
+        if xyz[0]/self.whitepoint[0] > _DELTA**3.0:
             fx = (xyz[0]/self.whitepoint[0])**(1.0/3.0)
         else:
-            fx = (xyz[0]/self.whitepoint[0])/(3.0*self.__DELTA**2.0) + self.__DELTA
+            fx = (xyz[0]/self.whitepoint[0])/(3.0*_DELTA**2.0) + _DELTA
         
-        if xyz[1]/self.whitepoint[1] > self.__DELTA**3.0:
+        if xyz[1]/self.whitepoint[1] > _DELTA**3.0:
             fy = (xyz[1]/self.whitepoint[1])**(1.0/3.0)
         else:
-            fy = (xyz[1]/self.whitepoint[1])/(3.0*self.__DELTA**2.0) + self.__DELTA
+            fy = (xyz[1]/self.whitepoint[1])/(3.0*_DELTA**2.0) + _DELTA
         
-        if xyz[2]/self.whitepoint[2] > self.__DELTA**3:
+        if xyz[2]/self.whitepoint[2] > _DELTA**3:
             fz = (xyz[2]/self.whitepoint[2])**(1.0/3.0)
         else:
-            fz = (xyz[2]/self.whitepoint[2])/(3.0*self.__DELTA**2.0) + self.__DELTA
+            fz = (xyz[2]/self.whitepoint[2])/(3.0*_DELTA**2.0) + _DELTA
 
         lab = np.zeros(3)
         lab[0] = 116.0*fy - 16.0
@@ -600,29 +526,24 @@ class Camera:
 
     def rgb2lab(self, rgb: np.ndarray) -> np.ndarray:
 
-        """
-        Converts the color from linear RGB to CIELAB color space.
-        """
+        """Converts the color values from linear RGB to CIELAB color space."""
 
         return self.xyz2lab(self.rgb2xyz(rgb))
     
     
     def set_whitepoint(self, x: float=0.94811,  y: float=1.0, z: float=1.07304) -> None:
         
-        """
-        Sets the white point. Default is D65. 
-        """
+        """Sets the white point. Default is D65."""
 
         self.whitepoint = np.ones(3)
         self.whitepoint[0] = x
         self.whitepoint[1] = y
         self.whitepoint[2] = z
 
+
     def set_gain(self, gain: float) -> None:
 
-        """
-        Sets the gain.
-        """
+        """Sets the gain."""
 
         self.open()
         self.camera.Gain.SetValue(gain)
@@ -630,18 +551,14 @@ class Camera:
 
     def get_gain(self) -> float:
         
-        """
-        Gets the gain.
-        """
+        """Gets the gain."""
 
         return self.camera.Gain.GetValue()
     
 
     def set_exposure_time(self, time: float) -> None:
 
-        """
-        Sets the exposure time. 
-        """
+        """Sets the exposure time."""
         
         self.open()
         self.camera.ExposureTime.SetValue(time)
@@ -649,18 +566,14 @@ class Camera:
     
     def get_exposure_time(self) -> float:
         
-        """
-        Gets the exposure time.
-        """
+        """Gets the exposure time."""
 
         return self.camera.ExposureTime.GetValue()
 
 
-    def set_white_balance_ratios(self, r: float, g: float, b: float) -> None:
+    def set_white_balance_ratio(self, r: float, g: float, b: float) -> None:
         
-        """
-        Sets the white balance ratio.
-        """
+        """Sets the white balance ratio."""
 
         self.open()
         self.camera.BalanceRatioSelector.SetValue('Red')
@@ -671,11 +584,9 @@ class Camera:
         self.camera.BalanceRatio.SetValue(b)
 
 
-    def get_white_balance_ratios(self) -> np.ndarray:
+    def get_white_balance_ratio(self) -> np.ndarray:
         
-        """
-        Gets the white balance ratio.
-        """
+        """Gets the white balance ratio."""
 
         balance = np.ones(3)
         self.camera.BalanceRatioSelector.SetValue('Red')
@@ -686,26 +597,108 @@ class Camera:
         balance[2] = self.camera.BalanceRatio.GetValue()
         
         return balance
+    
+
+    def set_database_path(self, file: str) -> None:
+        
+        """Sets and initiates the CSV database."""
+
+        self.__database = file
+
+        # Initiate file with header (only if file doesn't exist yet)
+        if not (os.path.exists(self.__database)):
+            try:
+                with open(self.__database, 'a', newline='') as file:
+                    writer = csv.writer(file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                    writer.writerow(["Time", "R", "G", "B", "X", "Y", "Z", "L*", "a*", "b*"])
+            except Exception as e:
+                logging.error("Error initializing CSV database: {0}".format(e))
+
+
+    def get_database_path(self) -> str:
+
+        """Gets the path of the CSV database."""
+
+        return self.__database
+    
+    
+class ConfigurationEventHandler(pylon.ConfigurationEventHandler):
+
+    """Handles camera configuration events."""
+
+    def __init__(self, camera: Camera) -> None:
+
+        """Initializes the configuration event handler."""
+
+        self.camera: Camera = camera
+
+    def OnAttach(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('Before attaching')
+        
+    def OnAttached(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('After attaching')
+
+    def OnOpen(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('Before opening')
+
+    def OnOpened(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('After Opening')
+
+    def OnDestroy(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('Before destroying')
+
+    def OnDestroyed(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('After destroying')
+
+    def OnClosed(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('Camera Closed')
+
+    def OnDetach(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('Detaching')
+
+    def OnGrabStarted(self, camera: pylon.InstantCamera) -> None:
+        logging.debug('Grab started')
+
+
+class ImageEventHandler(pylon.ImageEventHandler):
+    
+    """Handles image events."""
+    
+    def __init__(self, camera: Camera) -> None:
+
+        """Initializes the image event handler."""
+
+        self.camera: Camera = camera
+    
+    def OnImagesSkipped(self, camera: pylon.InstantCamera, count_of_skipped_images: int) -> None:
+        logging.debug('Image skipped')
+
+    def OnImageGrabbed(self, camera: pylon.InstantCamera, grab_result: pylon.GrabResult) -> None:
+        logging.debug('Image grabbed')
 
 
 if __name__ == "__main__":
+   
+    # Logging
+    logging.basicConfig(level=logging.INFO)
+    logging.info("Starting the camera.")
 
-    # Initiate the logger
-    _logger = logging.getLogger(__name__)
-    _logger.log("Start")
-    
     # Initiate the camera
     camera = Camera('169.254.1.69')
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
-    camera.set_white_balance_ratios(1.0, 0.545, 1.257)
+    camera.set_white_balance_ratio(1.0, 0.545, 1.257)
     camera.set_whitepoint(0.938, 0.981, 1.070)
     camera.set_exposure_time(16000)
     camera.set_gain(2.70)
+
+    # Write to database
+    camera.set_database_path("D:/GitHub/ConcreteCandyTracker/log/test.csv")
+    camera.write_to_database = True
     
-    # Grab 2000 images
-    camera.grab(2000)
+    # Grab 10 images
+    camera.grab(10)
     
     # End
-    _logger.log("End")
+    logging.info("End")

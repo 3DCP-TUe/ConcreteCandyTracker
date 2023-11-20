@@ -11,19 +11,21 @@ Authors:
 import asyncio
 import logging
 import threading
-
 from camera import Camera
 from asyncua import Server
 
+# CONSTANTS
+CAMERA_IP = "169.254.1.69"
+DATABASE = "D:/GitHub/ConcreteCandyTracker/log/test.csv"
+
 async def main():
     
-    # Logger
-    logger = logging.getLogger(__name__)
-
     # Setup the server
+    logging.info("Starting the OPC UA server.")
     server = Server()
     await server.init()
     server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
+    server.set_server_name("Concrete Candy Tracker")
 
     # Set up the name space
     uri = "http://examples.freeopcua.github.io"
@@ -41,30 +43,45 @@ async def main():
     myvar_a_star = await myobj.add_variable(idx, "a*", 0.0)
     myvar_b_star = await myobj.add_variable(idx, "b*", 0.0)
 
+    # Node ID
+    logging.info("Object info     : {}".format(myobj))
+    logging.info("Node ID of 'R'  : {}".format(myvar_r.nodeid.to_string()))
+    logging.info("Node ID of 'G'  : {}".format(myvar_g.nodeid.to_string()))
+    logging.info("Node ID of 'B'  : {}".format(myvar_b.nodeid.to_string()))
+    logging.info("Node ID of 'X'  : {}".format(myvar_x.nodeid.to_string()))
+    logging.info("Node ID of 'Y'  : {}".format(myvar_y.nodeid.to_string()))
+    logging.info("Node ID of 'Z'  : {}".format(myvar_z.nodeid.to_string()))
+    logging.info("Node ID of 'L*' : {}".format(myvar_l_star.nodeid.to_string()))
+    logging.info("Node ID of 'a*' : {}".format(myvar_a_star.nodeid.to_string()))
+    logging.info("Node ID of 'b*' : {}".format(myvar_b_star.nodeid.to_string()))
+
     # Initiate the camera
-    camera = Camera('169.254.1.69')
+    logging.info("Starting the camera")
+    
+    camera = Camera(CAMERA_IP)
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
-    camera.set_white_balance_ratios(1.0, 0.545, 1.257)
+    camera.set_white_balance_ratio(1.0, 0.545, 1.257)
     camera.set_whitepoint(0.938, 0.981, 1.070)
     camera.set_exposure_time(16000)
     camera.set_gain(2.70)
     
-    # Collect data
+    # Write color values to CSV database
+    camera.set_database_path(DATABASE)
+    camera.write_to_database = True
+    
+    # Start data acquisiton
     event = threading.Event()
     thread = threading.Thread(target=camera.start_grabbing, args=(event,))
     thread.start()
-
-    # Log
-    logger.info("Starting server!")
     
     async with server:
         
         while True:
             
-            logger.info("The OPC UA server is still running...")
-
+            logging.info("The OPC UA server is still running...")
+            
             await myvar_r.write_value(camera.r)
             await myvar_g.write_value(camera.g)
             await myvar_b.write_value(camera.b)
@@ -76,10 +93,10 @@ async def main():
             await myvar_l_star.write_value(camera.l_star)
             await myvar_a_star.write_value(camera.a_star)
             await myvar_b_star.write_value(camera.b_star)
-
+            
             await asyncio.sleep(1.0)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    asyncio.run(main(), debug=True)
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main(), debug=False)

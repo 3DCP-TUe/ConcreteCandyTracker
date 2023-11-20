@@ -11,63 +11,74 @@ Authors:
 import asyncio
 import logging
 import threading
-
 from camera import Camera
 from asyncua import Client, Node, ua
 
+# CONSTANTS
+SERVER_ENDPOINT = "opc.tcp://10.129.4.30:4840"
+CAMERA_IP = "169.254.1.69"
+DATABASE = "D:/GitHub/ConcreteCandyTracker/log/test.csv"
+
 async def main():
     
-    # Logger
-    logger = logging.getLogger(__name__)
-
     # Initiate the camera
-    camera = Camera('169.254.1.69')
+    camera = Camera(CAMERA_IP)
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
-    camera.set_white_balance_ratios(1.0, 0.545, 1.257)
+    camera.set_white_balance_ratio(1.0, 0.545, 1.257)
     camera.set_whitepoint(0.938, 0.981, 1.070)
     camera.set_exposure_time(16000)
     camera.set_gain(2.70)
     
-    # Collect data
+     # Write color values to CSV database
+    camera.set_database_path(DATABASE)
+    camera.write_to_database = True
+
+    # Start data acquisiton
     event = threading.Event()
     thread = threading.Thread(target=camera.start_grabbing, args=(event,))
     thread.start()
 
     while True:
 
-        # Material delivery PLC / Sensing station
-        client = Client(url="opc.tcp://10.129.4.30:4840")
+        # Get the server client
+        client = Client(url=SERVER_ENDPOINT)
 
         try:
-            async with client:               
+            async with client:
 
                 # Get the free programmable parameters
-                node1 = client.get_node("ns=4;i=116") #R0
-                node2 = client.get_node("ns=4;i=94") #R1
-                node3 = client.get_node("ns=4;i=95") #R2
-                node4 = client.get_node("ns=4;i=96") #R3
-                node5 = client.get_node("ns=4;i=97") #R4
-                node6 = client.get_node("ns=4;i=98") #R5
+                node1 = client.get_node("ns=4;i=116")  #R0
+                node2 = client.get_node("ns=4;i=94")   #R1
+                node3 = client.get_node("ns=4;i=95")   #R2
+                node4 = client.get_node("ns=4;i=96")   #R3
+                node5 = client.get_node("ns=4;i=97")   #R4
+                node6 = client.get_node("ns=4;i=98")   #R5
+                node7 = client.get_node("ns=4;i=99")   #R6
+                node8 = client.get_node("ns=4;i=100")  #R7
+                node9 = client.get_node("ns=4;i=101")  #R8
                 
                 while True:
 
                     await node1.write_value(camera.r)
                     await node2.write_value(camera.g)
                     await node3.write_value(camera.b)
-                    await node4.write_value(camera.l_star)
-                    await node5.write_value(camera.a_star)
-                    await node6.write_value(camera.b_star)
+                    await node4.write_value(camera.x)
+                    await node5.write_value(camera.y)
+                    await node6.write_value(camera.z)
+                    await node7.write_value(camera.l_star)
+                    await node8.write_value(camera.a_star)
+                    await node9.write_value(camera.b_star)
 
                     await asyncio.sleep(1)
                     await client.check_connection() # Throws an exception if the connection is lost
         
         except (ConnectionError, ua.UaError):
-            logger.warning("Reconnecting in 2 seconds")
+            logging.warning("Lost connection to OPC UA server: Reconnecting in 2 seconds")
             await asyncio.sleep(2)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    asyncio.run(main(), debug=True)
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main(), debug=False)
