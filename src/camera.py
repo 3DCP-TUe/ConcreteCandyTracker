@@ -44,7 +44,7 @@ class Camera:
         """
         
         self.__get_camera(ip)
-        #self.__register_event_handlers()
+        self.__register_event_handlers()
         self.set_default_camera_settings()
         self.set_whitepoint() # Default: D65
         self.set_roi() # Default: full resolution
@@ -630,7 +630,8 @@ class ConfigurationEventHandler(pylon.ConfigurationEventHandler):
 
         """Initializes the configuration event handler."""
 
-        self.camera: Camera = camera
+        super(ConfigurationEventHandler, self).__init__()
+        self.camera = camera
 
     def OnAttach(self, camera: pylon.InstantCamera) -> None:
         logging.debug('Before attaching')
@@ -668,7 +669,8 @@ class ImageEventHandler(pylon.ImageEventHandler):
 
         """Initializes the image event handler."""
 
-        self.camera: Camera = camera
+        super(ImageEventHandler, self).__init__()
+        self.camera = camera
     
     def OnImagesSkipped(self, camera: pylon.InstantCamera, count_of_skipped_images: int) -> None:
         logging.debug('Image skipped')
