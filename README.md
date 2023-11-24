@@ -82,11 +82,8 @@ White Point Measurement:
 - Finally, set the measured white point values in the camera class. The white point is used to transform the color values from linear RGB color space to CIELAB color space.
 If all steps are performed correctly, the measured CIELAB color values of an 18% grey card should come close to 50, 0, 0 for L*, a*, and b*, respectively.
 
-## Cite
-
-TODO: Make a zenodo page with DOI. 
-
 ## License
+
 Copyright (c) 2023 3D Concrete Printing Research Group at Eindhoven University of Technology
 
 Concrete Candy Tracker is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation. 
