@@ -686,7 +686,7 @@ if __name__ == "__main__":
     logging.info("Starting the camera.")
 
     # Initiate the camera
-    camera = Camera('169.254.1.69')
+    camera = Camera("169.254.1.69")
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
