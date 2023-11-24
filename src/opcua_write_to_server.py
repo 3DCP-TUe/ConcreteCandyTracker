@@ -60,21 +60,33 @@ async def main():
                 node9 = client.get_node("ns=4;i=101")  #R8
                 
                 while True:
+                    
+                    value1 = ua.DataValue(ua.Variant(camera.r, ua.VariantType.Float))
+                    value2 = ua.DataValue(ua.Variant(camera.g, ua.VariantType.Float))
+                    value3 = ua.DataValue(ua.Variant(camera.b, ua.VariantType.Float))
+                    value4 = ua.DataValue(ua.Variant(camera.x, ua.VariantType.Float))
+                    value5 = ua.DataValue(ua.Variant(camera.y, ua.VariantType.Float))
+                    value6 = ua.DataValue(ua.Variant(camera.z, ua.VariantType.Float))
+                    value7 = ua.DataValue(ua.Variant(camera.l_star, ua.VariantType.Float))
+                    value8 = ua.DataValue(ua.Variant(camera.a_star, ua.VariantType.Float))
+                    value9 = ua.DataValue(ua.Variant(camera.b_star, ua.VariantType.Float))
 
-                    await node1.write_value(camera.r)
-                    await node2.write_value(camera.g)
-                    await node3.write_value(camera.b)
-                    await node4.write_value(camera.x)
-                    await node5.write_value(camera.y)
-                    await node6.write_value(camera.z)
-                    await node7.write_value(camera.l_star)
-                    await node8.write_value(camera.a_star)
-                    await node9.write_value(camera.b_star)
+                    await node1.write_value(value1)
+                    await node2.write_value(value2)
+                    await node3.write_value(value3)
+                    await node4.write_value(value4)
+                    await node5.write_value(value5)
+                    await node6.write_value(value6)
+                    await node7.write_value(value7)
+                    await node8.write_value(value8)
+                    await node9.write_value(value9)
 
                     await asyncio.sleep(1)
                     await client.check_connection() # Throws an exception if the connection is lost
-        
-        except (ConnectionError, ua.UaError):
+                    
+        except ua.UaError as e:
+            logging.warning("An OPC UA error occurred: {}".format(e))
+        except ConnectionError:
             logging.warning("Lost connection to OPC UA server: Reconnecting in 2 seconds")
             await asyncio.sleep(2)
 
