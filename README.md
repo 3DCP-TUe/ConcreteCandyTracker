@@ -1,6 +1,6 @@
 # Concrete Candy Tracker
 
-Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detailed in the paper titled "An In-line Dye Tracer Experiment for Mixing and Pumping Concrete" (under review). The experiment uses a digital image processing (DIP) technique to detect a dye — Rhomadine B — which stains the concrete with a candy cane-like effect.
+Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled "An In-line Dye Tracer Experiment for Mixing and Pumping Concrete" (under review). The experiment uses a digital image processing (DIP) technique to detect a dye — Rhomadine B — which stains the concrete with a candy cane-like effect.
 
 ## Hardware requirements
 
@@ -50,7 +50,7 @@ Access Node-Red at:
 
 **[scr/benchmarks/color_transformations.m](scr/benchmarks/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
-## Calibration procedure / checklist
+## Calibration procedure/checklist
 
 Mounting:
 
@@ -73,7 +73,7 @@ Configuration:
 
 White Balance Calibration:
 
-- Run the data acquisition for at least one hour to heat up the light source and camera. Do this for the calibration prodecure and before you perform the experiment.
+- Run the data acquisition for at least one hour to heat the light source and camera. Do this for the calibration procedure and before you perform the experiment.
 - Calibrate the white balance with an 18% grey card. For this step, run the data acquisition for a short time each iteration (e.g., acquire 100 images). The goal is to set all linear RGB color values at 46. Adjust the gain value to scale all linear RGB color values. If values are below 46, increase the gain; if above 46, lower the gain. To obtain equally balanced color values: Set the white balance ratio R to 1.0. Adjust the white balance ratio G and B to obtain equal linear RGB color values of 46. If the color value G is below the color value R, increase the white balance G; if the color value G is above the color value R, decrease the white balance ratio G. Do the same for color value B. Note that changing the white balance G and B will affect all color values. Conduct several iterations with small adjustments to achieve linear RGB values of 46. Typical white balance ratios at TU/e are around 1.0, 0.545, and 1.257 for R, G, and B, respectively. Typical gain values are around 2.5-3.0, depending on the position of the light source.
 
 White Point Measurement:
@@ -84,7 +84,7 @@ If all steps are performed correctly, the measured CIELAB color values of an 18%
 
 ## License
 
-Copyright (c) 2023 3D Concrete Printing Research Group at Eindhoven University of Technology
+Copyright (c) 2023 [3D Concrete Printing Research Group at Eindhoven University of Technology](https://www.tue.nl/en/research/research-groups/structural-engineering-and-design/3d-concrete-printing)
 
 Concrete Candy Tracker is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation. 
 
