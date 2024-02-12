@@ -20,7 +20,7 @@ If a different Basler camera is used, it may need adjustments to the camera clas
 
 The current release is tested with Python 3.8 and requires the following libraries:
 
-- The offical Python wrapper for the camera from Basler: [PyPylon](https://www.baslerweb.com/en-us/software/pylon/pypylon/)
+- The official Python wrapper for the camera from Basler: [PyPylon](https://www.baslerweb.com/en-us/software/pylon/pypylon/)
 - To set up an OPC UA server or to write to an OPC UA server: [opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
 - For numerical operations: [numpy](https://numpy.org/)
 
@@ -84,7 +84,7 @@ If all steps are performed correctly, the measured CIELAB color values of an 18%
 
 ## License
 
-Copyright (c) 2023 [3D Concrete Printing Research Group at Eindhoven University of Technology](https://www.tue.nl/en/research/research-groups/structural-engineering-and-design/3d-concrete-printing)
+Copyright (c) 2023-2024 [3D Concrete Printing Research Group at Eindhoven University of Technology](https://www.tue.nl/en/research/research-groups/structural-engineering-and-design/3d-concrete-printing)
 
 Concrete Candy Tracker is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 3.0 as published by the Free Software Foundation. 
 
