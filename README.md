@@ -94,4 +94,4 @@ You should have received a copy of the GNU General Public License along with Con
 
 @license GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.html>
 
-Contact us if you want to obtain a copy of the source code with a different license. 
+Contact us if you want to obtain a copy of the code with a different license. 
