@@ -46,9 +46,9 @@ Access Node-Red at:
 
 **[src/opcua_write_to_server.py](src/opcua_write_to_server.py):** Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
 
-**[scr/node-red/local_server_dashboard.json](scr/node-red/local_server_dashboard.json):** A simple dashboard for Node-Red, displaying real-time color values from the local OPC UA server.
+**[scr/node-red/local_server_dashboard.json](src/node-red/local_server_dashboard.json):** A simple dashboard for Node-Red, displaying real-time color values from the local OPC UA server.
 
-**[scr/benchmarks/color_transformations.m](scr/benchmarks/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
+**[scr/benchmarks/color_transformations.m](src/benchmarks/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
 ## Calibration procedure/checklist
 
