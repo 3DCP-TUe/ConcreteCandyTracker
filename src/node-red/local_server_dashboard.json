@@ -30,214 +30,10 @@
         "sendBufferSize": 8192,
         "name": "",
         "x": 720,
-        "y": 300,
+        "y": 320,
         "wires": [
             [
                 "bfc6afe4ec4369dc"
-            ]
-        ]
-    },
-    {
-        "id": "5bcf2ed107cc7d89",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value R",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "r",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=2",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 300,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "f2cdbdf744c8871b",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value G",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "g",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=3",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 340,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "424c2b9251551c63",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value B",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "b",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=4",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 380,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "12967f95894e5c79",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value L*",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "l_star",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=8",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 540,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "b2bc4ab5a2b1d328",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value a*",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "a_star",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=9",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 580,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "f12ba8f3459fad6c",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value b*",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "b_star",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=10",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 620,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
             ]
         ]
     },
@@ -372,22 +168,22 @@
         "type": "switch",
         "z": "eb873eabcf0c325c",
         "name": "Values",
-        "property": "value",
+        "property": "browseName",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "eq",
-                "v": "r",
+                "v": "red",
                 "vt": "str"
             },
             {
                 "t": "eq",
-                "v": "g",
+                "v": "green",
                 "vt": "str"
             },
             {
                 "t": "eq",
-                "v": "b",
+                "v": "blue",
                 "vt": "str"
             },
             {
@@ -424,8 +220,8 @@
         "checkall": "true",
         "repair": true,
         "outputs": 9,
-        "x": 890,
-        "y": 300,
+        "x": 910,
+        "y": 320,
         "wires": [
             [
                 "c9fb82be58993cac"
@@ -712,108 +508,6 @@
         ]
     },
     {
-        "id": "41a9f1feef308c97",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value X",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "x",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=5",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 420,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "7e21267a74ccfb65",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value Y",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "y",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=6",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 460,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
-        "id": "306cdac4f30a5bfe",
-        "type": "inject",
-        "z": "eb873eabcf0c325c",
-        "name": "Color value Z",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            },
-            {
-                "p": "value",
-                "v": "z",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "ns=2;i=7",
-        "payload": "",
-        "payloadType": "date",
-        "x": 440,
-        "y": 500,
-        "wires": [
-            [
-                "88c1cfc3ea8f28e0"
-            ]
-        ]
-    },
-    {
         "id": "e64e99bd98a41620",
         "type": "ui_text",
         "z": "eb873eabcf0c325c",
@@ -933,6 +627,183 @@
         "wires": [
             [
                 "9810b1a6ec34afd1"
+            ]
+        ]
+    },
+    {
+        "id": "c179e7cae29df13a",
+        "type": "inject",
+        "z": "eb873eabcf0c325c",
+        "name": "Timer",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 320,
+        "wires": [
+            [
+                "8352fdf8966827e7",
+                "1a2a766a10ffe4f1",
+                "b324d6140e209078",
+                "445e2b46cef72f74",
+                "6994a25dc50a1d56",
+                "29c8a153489ec5b6",
+                "739b38768324ec55",
+                "3771d97d5534c6aa",
+                "23fd85def8320636"
+            ]
+        ]
+    },
+    {
+        "id": "8352fdf8966827e7",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=2",
+        "datatype": "Float",
+        "value": "",
+        "name": "red",
+        "x": 490,
+        "y": 320,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "1a2a766a10ffe4f1",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=3",
+        "datatype": "Float",
+        "value": "",
+        "name": "green",
+        "x": 490,
+        "y": 360,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "b324d6140e209078",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=4",
+        "datatype": "Float",
+        "value": "",
+        "name": "blue",
+        "x": 490,
+        "y": 400,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "445e2b46cef72f74",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=5",
+        "datatype": "Float",
+        "value": "",
+        "name": "x",
+        "x": 490,
+        "y": 460,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "6994a25dc50a1d56",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=6",
+        "datatype": "Float",
+        "value": "",
+        "name": "y",
+        "x": 490,
+        "y": 500,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "29c8a153489ec5b6",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=7",
+        "datatype": "Float",
+        "value": "",
+        "name": "z",
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "739b38768324ec55",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=8",
+        "datatype": "Float",
+        "value": "",
+        "name": "l_star",
+        "x": 490,
+        "y": 600,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "3771d97d5534c6aa",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=9",
+        "datatype": "Float",
+        "value": "",
+        "name": "a_star",
+        "x": 490,
+        "y": 640,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
+            ]
+        ]
+    },
+    {
+        "id": "23fd85def8320636",
+        "type": "OpcUa-Item",
+        "z": "eb873eabcf0c325c",
+        "item": "ns=2;i=10",
+        "datatype": "Float",
+        "value": "",
+        "name": "b_star",
+        "x": 490,
+        "y": 680,
+        "wires": [
+            [
+                "88c1cfc3ea8f28e0"
             ]
         ]
     },
