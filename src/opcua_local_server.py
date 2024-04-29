@@ -12,10 +12,10 @@ import asyncio
 import logging
 import threading
 from camera import Camera
-from asyncua import Server
+from asyncua import Server, ua
 
 # CONSTANTS
-CAMERA_IP = "169.254.1.69"
+CAMERA_IP = "192.168.215.5"
 DATABASE = "D:/GitHub/ConcreteCandyTracker/log/test.csv"
 
 async def main():
@@ -33,27 +33,27 @@ async def main():
 
     # Populate
     myobj = await server.nodes.objects.add_object(idx, "Color values")
-    myvar_r = await myobj.add_variable(idx, "R", 0.0)
-    myvar_g = await myobj.add_variable(idx, "G", 0.0)
-    myvar_b = await myobj.add_variable(idx, "B", 0.0)
-    myvar_x = await myobj.add_variable(idx, "X", 0.0)
-    myvar_y = await myobj.add_variable(idx, "Y", 0.0)
-    myvar_z = await myobj.add_variable(idx, "Z", 0.0)
-    myvar_l_star = await myobj.add_variable(idx, "L*", 0.0)
-    myvar_a_star = await myobj.add_variable(idx, "a*", 0.0)
-    myvar_b_star = await myobj.add_variable(idx, "b*", 0.0)
+    myvar_r = await myobj.add_variable(idx, "R", 0.0, varianttype=ua.VariantType.Double)
+    myvar_g = await myobj.add_variable(idx, "G", 0.0, varianttype=ua.VariantType.Double)
+    myvar_b = await myobj.add_variable(idx, "B", 0.0, varianttype=ua.VariantType.Double)
+    myvar_x = await myobj.add_variable(idx, "X", 0.0, varianttype=ua.VariantType.Double)
+    myvar_y = await myobj.add_variable(idx, "Y", 0.0, varianttype=ua.VariantType.Double)
+    myvar_z = await myobj.add_variable(idx, "Z", 0.0, varianttype=ua.VariantType.Double)
+    myvar_l_star = await myobj.add_variable(idx, "L*", 0.0, varianttype=ua.VariantType.Double)
+    myvar_a_star = await myobj.add_variable(idx, "a*", 0.0, varianttype=ua.VariantType.Double)
+    myvar_b_star = await myobj.add_variable(idx, "b*", 0.0, varianttype=ua.VariantType.Double)
 
     # Node ID
-    logging.info("Object info     : {}".format(myobj))
-    logging.info("Node ID of 'R'  : {}".format(myvar_r.nodeid.to_string()))
-    logging.info("Node ID of 'G'  : {}".format(myvar_g.nodeid.to_string()))
-    logging.info("Node ID of 'B'  : {}".format(myvar_b.nodeid.to_string()))
-    logging.info("Node ID of 'X'  : {}".format(myvar_x.nodeid.to_string()))
-    logging.info("Node ID of 'Y'  : {}".format(myvar_y.nodeid.to_string()))
-    logging.info("Node ID of 'Z'  : {}".format(myvar_z.nodeid.to_string()))
-    logging.info("Node ID of 'L*' : {}".format(myvar_l_star.nodeid.to_string()))
-    logging.info("Node ID of 'a*' : {}".format(myvar_a_star.nodeid.to_string()))
-    logging.info("Node ID of 'b*' : {}".format(myvar_b_star.nodeid.to_string()))
+    logging.info("Object info       : {}".format(myobj))
+    logging.info("Node ID of 'R'    : {}".format(myvar_r.nodeid.to_string()))
+    logging.info("Node ID of 'G'    : {}".format(myvar_g.nodeid.to_string()))
+    logging.info("Node ID of 'B'    : {}".format(myvar_b.nodeid.to_string()))
+    logging.info("Node ID of 'X'    : {}".format(myvar_x.nodeid.to_string()))
+    logging.info("Node ID of 'Y'    : {}".format(myvar_y.nodeid.to_string()))
+    logging.info("Node ID of 'Z'    : {}".format(myvar_z.nodeid.to_string()))
+    logging.info("Node ID of 'L*'   : {}".format(myvar_l_star.nodeid.to_string()))
+    logging.info("Node ID of 'a*'   : {}".format(myvar_a_star.nodeid.to_string()))
+    logging.info("Node ID of 'b*'   : {}".format(myvar_b_star.nodeid.to_string()))
 
     # Initiate the camera
     logging.info("Starting the camera")
