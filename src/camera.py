@@ -358,6 +358,13 @@ class Camera:
         
         return self.camera.ResultingFrameRate.GetValue()
     
+
+    def is_grabbing(self) -> bool:
+        
+        """Returns a boolean indicating if the camera is grabbing images."""
+
+        return self.camera.IsGrabbing()
+    
     
     def grab(self, n : float) -> None:
         
@@ -686,7 +693,7 @@ if __name__ == "__main__":
     logging.info("Starting the camera.")
 
     # Initiate the camera
-    camera = Camera("169.254.1.69")
+    camera = Camera("192.168.215.5")
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
@@ -700,7 +707,7 @@ if __name__ == "__main__":
     camera.write_to_database = True
     
     # Grab 10 images
-    camera.grab(10)
+    camera.grab(6)
     
     # End
     logging.info("End")
