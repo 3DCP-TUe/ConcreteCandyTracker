@@ -2,7 +2,7 @@
     {
         "id": "eb873eabcf0c325c",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Tracer: Local server",
         "disabled": false,
         "info": "",
         "env": []
@@ -47,7 +47,7 @@
         "height": 0,
         "name": "",
         "label": "R",
-        "format": "{{msg.r.toFixed(1)}}",
+        "format": "{{msg.payload.toFixed(1)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -68,7 +68,7 @@
         "height": 0,
         "name": "",
         "label": "G",
-        "format": "{{msg.g.toFixed(1)}}",
+        "format": "{{msg.payload.toFixed(1)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -89,7 +89,7 @@
         "height": 0,
         "name": "",
         "label": "B",
-        "format": "{{msg.b.toFixed(1)}}",
+        "format": "{{msg.payload.toFixed(1)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -110,7 +110,7 @@
         "height": 0,
         "name": "",
         "label": "L*",
-        "format": "{{msg.l_star.toFixed(2)}}",
+        "format": "{{msg.payload.toFixed(2)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -131,7 +131,7 @@
         "height": 0,
         "name": "",
         "label": "a*",
-        "format": "{{msg.a_star.toFixed(2)}}",
+        "format": "{{msg.payload.toFixed(2)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -152,7 +152,7 @@
         "height": 0,
         "name": "",
         "label": "b*",
-        "format": "{{msg.b_star.toFixed(2)}}",
+        "format": "{{msg.payload.toFixed(2)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -224,151 +224,31 @@
         "y": 320,
         "wires": [
             [
-                "c9fb82be58993cac"
-            ],
-            [
-                "f6bd2cec2451b302"
-            ],
-            [
-                "b010a7a2632692d3"
-            ],
-            [
-                "b2e948eb5499d24a"
-            ],
-            [
-                "ea8408e568be8bfc"
-            ],
-            [
-                "ebd62f6d45d3b58a"
-            ],
-            [
-                "f8fa993bce8ae231"
-            ],
-            [
-                "1bc1839dccf91953"
-            ],
-            [
-                "ce2efa370993dfd1"
-            ]
-        ]
-    },
-    {
-        "id": "c9fb82be58993cac",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.r = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 260,
-        "wires": [
-            [
                 "e81f630034a9d555"
-            ]
-        ]
-    },
-    {
-        "id": "f6bd2cec2451b302",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.g = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 300,
-        "wires": [
+            ],
             [
                 "eca4490d956f9d90"
-            ]
-        ]
-    },
-    {
-        "id": "b010a7a2632692d3",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.b = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 340,
-        "wires": [
+            ],
             [
                 "54132515a47fca60"
-            ]
-        ]
-    },
-    {
-        "id": "f8fa993bce8ae231",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.l_star = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 500,
-        "wires": [
+            ],
+            [
+                "e64e99bd98a41620"
+            ],
+            [
+                "8afd85554978ac0e"
+            ],
+            [
+                "9810b1a6ec34afd1"
+            ],
             [
                 "cd74fd9a8e0b84fa",
                 "3bdd65db9dcacc81"
-            ]
-        ]
-    },
-    {
-        "id": "1bc1839dccf91953",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.a_star = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 540,
-        "wires": [
+            ],
             [
                 "99fb9acb51226c2a",
                 "9f573cbe5b5dd1c0"
-            ]
-        ]
-    },
-    {
-        "id": "ce2efa370993dfd1",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.b_star = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 580,
-        "wires": [
+            ],
             [
                 "fd518abe82ddeb00",
                 "70e6f6b553106ec2"
@@ -517,7 +397,7 @@
         "height": 0,
         "name": "",
         "label": "X",
-        "format": "{{msg.x.toFixed(4)}}",
+        "format": "{{msg.payload.toFixed(4)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -538,7 +418,7 @@
         "height": 0,
         "name": "",
         "label": "Y",
-        "format": "{{msg.y.toFixed(4)}}",
+        "format": "{{msg.payload.toFixed(4)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -559,7 +439,7 @@
         "height": 0,
         "name": "",
         "label": "Z",
-        "format": "{{msg.z.toFixed(4)}}",
+        "format": "{{msg.payload.toFixed(4)}}",
         "layout": "row-spread",
         "className": "",
         "style": false,
@@ -569,66 +449,6 @@
         "x": 1490,
         "y": 460,
         "wires": []
-    },
-    {
-        "id": "b2e948eb5499d24a",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.x = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 380,
-        "wires": [
-            [
-                "e64e99bd98a41620"
-            ]
-        ]
-    },
-    {
-        "id": "ea8408e568be8bfc",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.y = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 420,
-        "wires": [
-            [
-                "8afd85554978ac0e"
-            ]
-        ]
-    },
-    {
-        "id": "ebd62f6d45d3b58a",
-        "type": "function",
-        "z": "eb873eabcf0c325c",
-        "name": "Function",
-        "func": "msg.z = msg.payload.toString()*1.0\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1140,
-        "y": 460,
-        "wires": [
-            [
-                "9810b1a6ec34afd1"
-            ]
-        ]
     },
     {
         "id": "c179e7cae29df13a",
@@ -828,6 +648,26 @@
         "height": 1
     },
     {
+        "id": "43d1d272e576162a",
+        "type": "ui_spacer",
+        "z": "eb873eabcf0c325c",
+        "name": "spacer",
+        "group": "534cf1315e3fbc6d",
+        "order": 4,
+        "width": 6,
+        "height": 1
+    },
+    {
+        "id": "963f1b821bbcb284",
+        "type": "ui_spacer",
+        "z": "eb873eabcf0c325c",
+        "name": "spacer",
+        "group": "534cf1315e3fbc6d",
+        "order": 8,
+        "width": 6,
+        "height": 1
+    },
+    {
         "id": "72148c59cec0103e",
         "type": "OpcUa-Endpoint",
         "endpoint": "opc.tcp://localhost:4840/freeopcua/server/",
@@ -862,10 +702,31 @@
         "className": ""
     },
     {
+        "id": "534cf1315e3fbc6d",
+        "type": "ui_group",
+        "name": "Color values",
+        "tab": "2e1c62c854894ff8",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "5971935a47a16e3f",
         "type": "ui_tab",
-        "name": "Home",
+        "name": "Tracer: Local server",
         "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "2e1c62c854894ff8",
+        "type": "ui_tab",
+        "name": "Tracer: Remote server",
+        "icon": "dashboard",
+        "order": 2,
         "disabled": false,
         "hidden": false
     }
