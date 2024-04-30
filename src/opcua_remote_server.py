@@ -16,7 +16,7 @@ from asyncua import Client, Node, ua
 
 # CONSTANTS
 SERVER_ENDPOINT = "opc.tcp://10.129.4.30:4840"
-CAMERA_IP = "169.254.1.69"
+CAMERA_IP = "10.129.4.180"
 DATABASE = "D:/GitHub/ConcreteCandyTracker/log/test.csv"
 
 async def main():

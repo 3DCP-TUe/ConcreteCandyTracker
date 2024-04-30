@@ -15,7 +15,7 @@ from camera import Camera
 from asyncua import Server, ua
 
 # CONSTANTS
-CAMERA_IP = "192.168.215.5"
+CAMERA_IP = "10.129.4.180"
 DATABASE = "D:/GitHub/ConcreteCandyTracker/log/test.csv"
 
 async def main():
