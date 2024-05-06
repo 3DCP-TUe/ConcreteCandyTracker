@@ -26,15 +26,15 @@ async def main():
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
-    camera.set_white_balance_ratio(1.0, 0.545, 1.257)
-    camera.set_whitepoint(0.938, 0.981, 1.070)
+    camera.set_white_balance_ratio(1.0, 0.546, 1.270)
+    camera.set_whitepoint(0.9307, 0.9707, 1.0577)
     camera.set_exposure_time(16000)
     camera.set_gain(2.70)
     
      # Write color values to CSV database
     camera.set_database_path(DATABASE)
     camera.write_to_database = True
-
+    
     # Start data acquisiton
     event = threading.Event()
     thread = threading.Thread(target=camera.start_grabbing, args=(event,))
