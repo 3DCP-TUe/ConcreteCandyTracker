@@ -24,7 +24,7 @@ async def main():
     logging.info("Starting the OPC UA server.")
     server = Server()
     await server.init()
-    server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
+    server.set_endpoint("opc.tcp://0.0.0.0:4840/concrete_candy_tracker/")
     server.set_server_name("Concrete Candy Tracker")
 
     # Set up the name space
