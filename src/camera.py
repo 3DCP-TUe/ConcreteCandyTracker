@@ -368,7 +368,7 @@ class Camera:
     
     def grab(self, n : float) -> None:
         
-        """Grabs a certain amount of images. Set a negative value to run without a limit."""
+        """Grabs a specific number of images. Set a negative value to run without a limit."""
 
         if self.camera != None:
             
@@ -388,6 +388,50 @@ class Camera:
 
                     if counter == n:
                         self.camera.StopGrabbing()
+
+
+    def grab_average(self, n : float) -> np.ndarray:
+
+        """Grabs a specific number of images and calculates the average color value from these images."""
+        
+        if (n < 1):
+            return np.zeros(9, dtype=float)
+        
+        if self.camera != None:
+            
+            self.camera.StartGrabbing(pylon.GrabStrategy_LatestImageOnly)
+            color_values_arrays = []
+            
+            counter = 0
+
+            while self.camera.IsGrabbing():
+
+                grab_result = self.camera.RetrieveResult(1000, pylon.TimeoutHandling_Return)
+
+                if grab_result.GrabSucceeded():
+                    
+                    color_values = self.__substract_data(grab_result)
+                    color_values_arrays.append(color_values)
+
+                    counter += 1
+
+                    if counter == n:
+                        self.camera.StopGrabbing()
+            
+            stacked_color_values = np.stack(color_values_arrays)
+            average_color_values = np.mean(stacked_color_values, axis=0)
+            
+            date = datetime.now()
+            r, g, b = average_color_values[0], average_color_values[1], average_color_values[2]
+            x, y, z =  average_color_values[3], average_color_values[4], average_color_values[5]
+            l_star, a_star, b_star = average_color_values[6], average_color_values[7], average_color_values[8]
+
+            logging.info("Resulting average color value from grabbing {0} images".format(n))
+            logging.info("{0}, R={1:.1f}, G={2:.1f}, B={3:.1f}, X={4:.4f}, Y={5:.4f}, Z={6:.4f}, L*={7:.4f}, a*={8:.4f}, b*={9:.4f}".format(date, r, g, b, x, y, z, l_star, a_star, b_star))
+
+            return average_color_values
+
+        return np.zeros(9, dtype=float)
 
 
     def stop_grabbing(self) -> None:
@@ -439,7 +483,7 @@ class Camera:
                     break
 
     
-    def __substract_data(self, grab_result: pylon.GrabResult) -> None:
+    def __substract_data(self, grab_result: pylon.GrabResult) -> np.ndarray:
         
         """Processes the grab result and stores the data."""
 
@@ -486,6 +530,8 @@ class Camera:
             with open(self.__database, 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
                 writer.writerow([date, "{0:.3f}".format(r), "{0:.3f}".format(g), "{0:.3f}".format(b), "{0:.6f}".format(x), "{0:.6f}".format(y), "{0:.6f}".format(z), "{0:.6f}".format(l_star), "{0:.6f}".format(a_star), "{0:.6f}".format(b_star)])
+
+        return np.concatenate([rgb, xyz, lab])
 
 
     def rgb2xyz(self, rgb: np.ndarray) -> np.ndarray:
@@ -697,17 +743,17 @@ if __name__ == "__main__":
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
-    camera.set_white_balance_ratio(1.0, 0.546, 1.270)
-    camera.set_whitepoint(0.9307, 0.9707, 1.0577)
+    camera.set_white_balance_ratio(1.0, 0.550, 1.285)
+    camera.set_whitepoint(0.9225, 0.9583, 1.0468)
     camera.set_exposure_time(16000)
-    camera.set_gain(2.70)
+    camera.set_gain(2.52)
 
     # Write to database
     camera.set_database_path("D:/GitHub/ConcreteCandyTracker/log/test.csv")
     camera.write_to_database = True
     
-    # Grab 10 images
-    camera.grab(10)
+    # Grab 60 images and calculate the average color value
+    camera.grab_average(500)
     
     # End
     logging.info("End")
