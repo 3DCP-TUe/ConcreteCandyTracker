@@ -492,6 +492,7 @@ class Camera:
 
         # Get the date and time
         date = datetime.now()
+        t = date.strftime("%H:%M:%S.%f")[:-3]
 
         # RGB values
         rgb = np.array([np.average(img[0::3]), np.average(img[1::3]), np.average(img[2::3])], dtype=float)
@@ -529,7 +530,7 @@ class Camera:
         if self.write_to_database == True:
             with open(self.__database, 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                writer.writerow([date, "{0:.3f}".format(r), "{0:.3f}".format(g), "{0:.3f}".format(b), "{0:.6f}".format(x), "{0:.6f}".format(y), "{0:.6f}".format(z), "{0:.6f}".format(l_star), "{0:.6f}".format(a_star), "{0:.6f}".format(b_star)])
+                writer.writerow([t, "{0:.3f}".format(r), "{0:.3f}".format(g), "{0:.3f}".format(b), "{0:.6f}".format(x), "{0:.6f}".format(y), "{0:.6f}".format(z), "{0:.6f}".format(l_star), "{0:.6f}".format(a_star), "{0:.6f}".format(b_star)])
 
         return np.concatenate([rgb, xyz, lab])
 
