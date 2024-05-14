@@ -95,5 +95,3 @@ Concrete Candy Tracker is distributed in the hope that it will be useful, but WI
 You should have received a copy of the GNU General Public License along with Concrete Candy Tracker; If not, see <http://www.gnu.org/licenses/>.
 
 @license GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.html>
-
-Contact us if you want to obtain a copy of the code with a different license. 
