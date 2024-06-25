@@ -84,6 +84,11 @@ White Point Measurement:
 - Finally, set the measured white point values in the camera class. The white point is used to transform the color values from linear RGB color space to CIELAB color space.
 If all steps are performed correctly, the measured CIELAB color values of an 18% grey card should come close to 50, 0, 0 for L*, a*, and b*, respectively.
 
+## Funding
+
+This software could be developed and maintained with the financial support of the following projects:
+- The project _"Additive manufacturing of functional construction materials on-demand"_ (with project number 17895) of the research program _"Materialen NL: Challenges 2018"_ which is financed by the Dutch Research Council (NWO).
+
 ## License
 
 Copyright (c) 2023-2024 [3D Concrete Printing Research Group at Eindhoven University of Technology](https://www.tue.nl/en/research/research-groups/structural-engineering-and-design/3d-concrete-printing)
