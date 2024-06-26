@@ -20,6 +20,7 @@ candy = readtable('20240506_Tracer_MAI_MULTIMIX.csv');
 
 %% Impulse times
 impulses = ["11:42:39.000", "13:42:40.000", "12:59:45.000", "13:20:42.000"];
+colors = ["k", "k", "b", "b"];
 
 %% Get time in minutes and seconds
 % Candy
@@ -69,10 +70,10 @@ box on
 before = 1*60;
 after = 25*60;
 % Values for base line correction in seconds
-t1a = 4*60; % Start plateau one
-t1b = 5*60; % End plateau one
-t2a = 24*60; % Start plateau two
-t2b = 25*60; % End plateau two
+t1a = 4*60;     % Start plateau one
+t1b = 5*60;     % End plateau one
+t2a = 24*60;    % Start plateau two
+t2b = 25*60;    % End plateau two
 % Store RTD
 rtd = cell(length(impulsesSeconds), 1);
 for i=1:length(impulsesSeconds)
@@ -93,15 +94,15 @@ for i=1:length(impulsesSeconds)
     [~, index3] = min(abs(subSet.('seconds')-t2b)); % Index end
     mean1 = mean(subSet(index0:index1, subSet.Properties.VariableNames).('concentration'));
     mean2 = mean(subSet(index2:index3, subSet.Properties.VariableNames).('concentration'));
-    weighted = (mean1 * (t1b - t1a) + mean2 * (t2b - t2a)) / ((t1b - t1a) + (t2b - t2a));
-    subSet.('concentration') = subSet.('concentration') - weighted;
+    mean3 = (mean1 + mean2) / 2;
+    subSet.('concentration') = subSet.('concentration') - mean3;
     % Normalize
     dt = subSet(index0:index3, :).('dt');
     concentration = subSet(index0:index3, :).('concentration');
     area = sum(dt.*concentration);
     subSet.('concentration') = subSet.('concentration') / area;
     % Plot 
-    plot(subSet.('minutes'), subSet.('concentration')*100, '-', 'MarkerSize', 0.25)
+    plot(subSet.('minutes'), subSet.('concentration')*100, '-', 'MarkerSize', 0.25, 'Color', colors(i))
     % Store RTD
     rtd{i} = subSet;
 end
@@ -115,7 +116,11 @@ ylim([-0.1 0.8])
 saveFigure(fig, 'rtd')
 
 %% Calculate residence time properties from impulse inputs
-disp('Average, Variance, Standard Deviation, P1, P5, P50, P95, P99')
+% Initialize table with properties
+types = ["string", repmat("double", 1, 8)];
+names = ["Time", "Mean", "Variance", "Standard Deviation", "P1", "P5", "P50", "P95", "P99"];
+properties = table('Size', [length(impulses) 9], 'VariableTypes', types, 'VariableNames', names);
+% Calculate properties
 for i = 1:length(rtd)
     % Get subset
     data = rtd{i};
@@ -132,9 +137,13 @@ for i = 1:length(rtd)
         [~, index] = min(abs(data.('cumulative') - percentiles(j)));
         pValues(j) = data.('seconds')(index);
     end
-    % Display values
-    disp([ave, var, sqrt(var), pValues])
+    % Add values to table
+    properties(i,:) = array2table([impulses(i), ave, var, sqrt(var), pValues]); 
 end
+% Display the table
+disp(properties)
+% Write table
+writetable(properties, 'rtd_properties.csv', 'Delimiter' ,',')
 
 %% End
 disp('End of script')
