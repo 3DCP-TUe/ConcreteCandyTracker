@@ -160,6 +160,9 @@ codegen/
 # Octave session info
 octave-workspace
 
+# MATLAB
+*.asv
+
 # Don't upload log files and plots
 analysis/*.pdf
 analysis/*.csv
