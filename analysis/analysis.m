@@ -76,7 +76,7 @@ t2a = 24*60;    % Start plateau two
 t2b = 25*60;    % End plateau two
 % Store RTD
 rtd = cell(length(impulsesSeconds), 1);
-for i=1:length(impulsesSeconds)
+for i = 1:length(impulsesSeconds)
     % Select window
     t0 = impulsesSeconds(i) - before;
     t1 = impulsesSeconds(i) + after;
@@ -107,8 +107,8 @@ for i=1:length(impulsesSeconds)
     rtd{i} = subSet;
 end
 % Layout of horizontal axis
-xlim([-before/60 after/60])
 xlabel('Time [minutes]')
+xlim([-before/60 after/60])
 % Layout of vertical axis
 ylabel('E(t) x 10^{-2}')
 ylim([-0.1 0.8])
