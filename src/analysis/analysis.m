@@ -47,10 +47,10 @@ candy(outliers, :) = [];
 fprintf('Removed %d outliers\n', sum(outliers))
 
 %% Signal filtering
-k = 40;
-candy.('L_') = movmean(candy.('L_'), k);
-candy.('a_') = movmean(candy.('a_'), k);
-candy.('b_') = movmean(candy.('b_'), k);
+k = round(sampleRate); % 1 second
+candy.('L_') = movmean(candy.('L_'), k, 'omitnan');
+candy.('a_') = movmean(candy.('a_'), k, 'omitnan');
+candy.('b_') = movmean(candy.('b_'), k, 'omitnan');
 
 %% Calculate delta t
 candy.('dt') = candy.('seconds') - circshift(candy.('seconds'), 1);
@@ -66,7 +66,7 @@ fig.Position = [1 14 24 8];
 hold on
 grid on
 box on
-% Window for subSet in seconds
+% Window size for subSet in seconds
 before = 1*60;
 after = 25*60;
 % Values for base line correction in seconds
@@ -75,7 +75,8 @@ t1b = 5*60;     % End plateau one
 t2a = 24*60;    % Start plateau two
 t2b = 25*60;    % End plateau two
 % Store RTD
-rtd = cell(length(impulsesSeconds), 1);
+rtd = cell(length(impulsesSeconds), 1);     % Store RTD to calculate properties later
+areas = zeros(length(impulsesSeconds), 1);  % Store area for calibration purposes
 for i = 1:length(impulsesSeconds)
     % Select window
     t0 = impulsesSeconds(i) - before;
@@ -88,23 +89,25 @@ for i = 1:length(impulsesSeconds)
     subSet.('seconds') = subSet.('seconds') - impulsesSeconds(i);
     subSet.('minutes') = subSet.('minutes') - impulsesSeconds(i)/60;
     % Base line correction
-    [~, index0] = min(abs(subSet.('seconds')-t1a)); % Index start
-    [~, index1] = min(abs(subSet.('seconds')-t1b)); % Index end
-    [~, index2] = min(abs(subSet.('seconds')-t2a)); % Index start
-    [~, index3] = min(abs(subSet.('seconds')-t2b)); % Index end
-    mean1 = mean(subSet(index0:index1, subSet.Properties.VariableNames).('concentration'));
-    mean2 = mean(subSet(index2:index3, subSet.Properties.VariableNames).('concentration'));
+    [~, index0] = min(abs(subSet.('seconds')-0.0)); % Index t=0
+    [~, index1] = min(abs(subSet.('seconds')-t1a)); % Index start
+    [~, index2] = min(abs(subSet.('seconds')-t1b)); % Index end
+    [~, index3] = min(abs(subSet.('seconds')-t2a)); % Index start
+    [~, index4] = min(abs(subSet.('seconds')-t2b)); % Index end
+    mean1 = mean(subSet(index1:index2, subSet.Properties.VariableNames).('concentration'));
+    mean2 = mean(subSet(index3:index4, subSet.Properties.VariableNames).('concentration'));
     mean3 = (mean1 + mean2) / 2;
     subSet.('concentration') = subSet.('concentration') - mean3;
     % Normalize
-    dt = subSet(index0:index3, :).('dt');
-    concentration = subSet(index0:index3, :).('concentration');
+    dt = subSet(index0:index4, :).('dt');
+    concentration = subSet(index0:index4, :).('concentration');
     area = sum(dt.*concentration);
     subSet.('concentration') = subSet.('concentration') / area;
     % Plot 
     plot(subSet.('minutes'), subSet.('concentration')*100, '-', 'MarkerSize', 0.25, 'Color', colors(i))
-    % Store RTD
+    % Store RTD and area
     rtd{i} = subSet;
+    areas(i) = area;
 end
 % Layout of horizontal axis
 xlabel('Time [minutes]')
@@ -117,9 +120,9 @@ saveFigure(fig, 'rtd')
 
 %% Calculate residence time properties from impulse inputs
 % Initialize table with properties
-types = ["string", repmat("double", 1, 8)];
-names = ["Time", "Mean", "Variance", "Standard Deviation", "P1", "P5", "P50", "P95", "P99"];
-properties = table('Size', [length(impulses) 9], 'VariableTypes', types, 'VariableNames', names);
+types = ["string", repmat("double", 1, 9)];
+names = ["Time", "Area", "Mean", "Variance", "Standard Deviation", "P1", "P5", "P50", "P95", "P99"];
+properties = table('Size', [length(impulses) 10], 'VariableTypes', types, 'VariableNames', names);
 % Calculate properties
 for i = 1:length(rtd)
     % Get subset
@@ -138,7 +141,7 @@ for i = 1:length(rtd)
         pValues(j) = data.('seconds')(index);
     end
     % Add values to table
-    properties(i,:) = array2table([impulses(i), ave, var, sqrt(var), pValues]); 
+    properties(i,:) = array2table([impulses(i), areas(i), ave, var, sqrt(var), pValues]); 
 end
 % Display the table
 disp(properties)
