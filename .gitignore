@@ -164,6 +164,6 @@ octave-workspace
 *.asv
 
 # Don't upload log files and plots
-analysis/*.pdf
-analysis/*.csv
-analysis/*.zip
+src/analysis/*.pdf
+src/analysis/*.csv
+src/analysis/*.zip
