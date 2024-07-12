@@ -11,8 +11,9 @@ The software is optimized for use with the following hardware components at TU/e
 - UV protection filter: Midwest Optical AC400
 - Polarization filter: Midwest Optical PR032-25.5
 - Polarized brick light: PL-ELSB-105SW
+- Bandpass filter: Midwest Optical Bi550 (optional)
 
-If a different Basler camera is used, it may need adjustments to the camera class.
+If a different Basler camera is used, the camera class may need to be adjusted. The listed bandpass filter is suitable for Rhodamine B. However, if you are using a different tracer material, you will need to select the appropriate bandpass filter for it.
 
 ## Installation
 
@@ -24,7 +25,7 @@ The current release is tested with Python 3.8 and requires the following librari
 - To set up an OPC UA server or to write to an OPC UA server: [opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
 - For numerical operations: [numpy](https://numpy.org/)
 
-Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI) and calibrating the orientaton of the polarization filter. 
+Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI) and calibrating the orientation of the polarization filter. 
 
 ### Node-red
 
@@ -51,6 +52,8 @@ Access Node-RED at:
 **[scr/node-red/remote_server_dashboard.json](src/node-red/remote_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the remote OPC UA server.
 
 **[scr/benchmarks/color_transformations.m](src/benchmarks/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
+
+**[scr/analysis/analysis.m](src/analysis/analysis.m):** MATLAB script to extract the residence time distribution and its properties from the acquired data. 
 
 ## Calibration procedure/checklist
 
@@ -83,6 +86,14 @@ White Point Measurement:
 - Measure the white point by placing a white card in front of the lens. Acquire images for a short time (e.g., 100 images). The CIEXYZ color values represent the white point. As a reference, the values for daylight (D65) are 0.9504, 1.00, and 1.0888. Typical white point reference values at TU/e are 0.938, 0.981, and 1.070.
 - Finally, set the measured white point values in the camera class. The white point is used to transform the color values from linear RGB color space to CIELAB color space.
 If all steps are performed correctly, the measured CIELAB color values of an 18% grey card should come close to 50, 0, 0 for L*, a*, and b*, respectively.
+
+Additional steps in case a bandpass filter is used:
+
+- Remove the polarization filter and UV filter.
+- Mount the bandpass filter.
+- Reattach the polarization filter.
+- Ensure the polarization filter is in the correct orientation.
+- Recalibrate the gain value with an 18% grey card. Adjust the gain value to scale the L* value of the CIELAB color space to 50%. Use the already measured white reference point for this step. 
 
 ## Funding
 
