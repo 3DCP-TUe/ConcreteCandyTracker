@@ -22,5 +22,9 @@
 		"digital image processing"
 	],
 
+	"references": [
+		"Deetman, A., Bos, D., Blaakmeer, J. et al. An in-line dye tracer experiment to measure the residence time in continuous concrete processing. Mater Struct 57, 104 (2024). https://doi.org/10.1617/s11527-024-02378-y"
+	],
+
 	"upload_type": "software"
 }
