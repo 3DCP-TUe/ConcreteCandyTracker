@@ -799,7 +799,7 @@ class Camera:
         Sets the exposure time.
         
         Args:
-            time (float): The exposure time to set, in ms.
+            time (float): The exposure time to set, in microsecond.
 
         Returns:
             None
@@ -818,7 +818,7 @@ class Camera:
             None
 
         Returns:
-            float: the current exposure time, in ms. 
+            float: the current exposure time, in microsecond. 
         """
 
         return self.camera.ExposureTime.GetValue()
