@@ -40,6 +40,12 @@ class Camera:
         This class is written for a Basler a2A1920-51gcPRO.
         https://docs.baslerweb.com/a2a1920-51gcpro
         https://docs.baslerweb.com/pylonapi/net/T_Basler_Pylon_Camera
+        
+        Args:
+            ip (str): The IP address of the camera. 
+
+        Returns:
+            None
         """
         
         self.__get_camera(ip)
@@ -66,14 +72,30 @@ class Camera:
 
     def __str__(self) -> str:
 
-        """Print string function."""
+        """
+        Print string function.
+        
+        Args:
+            None
+
+        Returns:
+            str: Hum readable string represenation of this camera instance.
+        """
 
         return "<Concrete Candy Tracker Camera>"
 
 
     def __get_camera(self, ip: str) -> None:
 
-        """Gets the Basler camera instance."""
+        """
+        Gets the Basler camera instance.
+        
+        Args:
+            ip (str): The IP address of the camera. 
+
+        Returns:
+            None
+        """
         
         factory = pylon.TlFactory.GetInstance()
         tl = factory.CreateTl('BaslerGigE')
@@ -84,7 +106,15 @@ class Camera:
 
     def __register_event_handlers(self) -> None:
 
-        """Registers the event handlers."""
+        """
+        Registers the event handlers.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         self.open()
         self.camera.RegisterImageEventHandler(ImageEventHandler(self), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
@@ -93,7 +123,15 @@ class Camera:
 
     def reset(self) -> None:
 
-        """Reset to initial settings."""
+        """
+        Reset to initial settings.
+                
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         self.open()
         self.set_whitepoint()
@@ -103,7 +141,15 @@ class Camera:
 
     def open(self) -> None:
 
-        """Opens the camera."""
+        """
+        Opens the camera.
+                
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         if self.camera.IsOpen() == False:
             self.camera.Open()
@@ -111,7 +157,14 @@ class Camera:
 
     def close(self) -> None:
 
-        """Closes the camera."""
+        """Closes the camera.
+                
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         if self.camera.IsOpen():
             self.camera.Close()
@@ -119,7 +172,15 @@ class Camera:
 
     def get_temp(self) -> float:
         
-        """Returns the sensor temperature."""
+        """
+        Returns the sensor temperature.
+                
+        Args:
+            None
+
+        Returns:
+            float: The sensor temperature. 
+        """
 
         self.open()
         return self.camera.DeviceTemperature.GetValue()
@@ -127,7 +188,18 @@ class Camera:
 
     def set_roi(self, offset_x: int=0, offset_y: int=0 , width: int=None, height: int=None) -> None:
         
-        """Sets the region of interest. Default is the full resolution. Values must be divisible by 4."""
+        """
+        Sets the region of interest. Default is the full resolution. Values must be divisible by 4.
+                
+        Args:
+            offset_x (int, optional): The offset of the ROI in the x direction in pixels. Defaults to 0.
+            offset_y (int, optional): The offset of the ROI in the y direction in pixels. Defaults to 0.
+            width (int, optional): The width of the ROI in pixels. Defaults to full width if None.
+            height (int, optional): The height of the ROI in pixels. Defaults to full height if None.
+
+        Returns:
+            None
+        """
 
         self.open()   
 
@@ -168,6 +240,12 @@ class Camera:
 
         For all features see: https://docs.baslerweb.com/features
         Follows the structure of the Pylon software package. 
+
+        Args:
+            None
+
+        Returns:
+            None
         """
 
         # Open camera
@@ -353,21 +431,45 @@ class Camera:
 
     def get_resulting_frame_rate(self) -> float:
         
-        """Returns the resulting frame rate."""
+        """
+        Returns the resulting frame rate.
+                
+        Args:
+            None
+
+        Returns:
+            float: The resulting frame rate in fps. 
+        """
         
         return self.camera.ResultingFrameRate.GetValue()
     
 
     def is_grabbing(self) -> bool:
         
-        """Returns a boolean indicating if the camera is grabbing images."""
+        """
+        Returns a boolean indicating if the camera is grabbing images.
+                
+        Args:
+            None
+
+        Returns:
+            bool: True if the camera is grabbing, False otherwise.
+        """
 
         return self.camera.IsGrabbing()
     
     
     def grab(self, n : float) -> None:
         
-        """Grabs a specific number of images. Set a negative value to run without a limit."""
+        """
+        Grabs a specific number of images. Set a negative value to run without a limit.
+                
+        Args:
+            n (float): The number of images to grab. If set to a negative value, the method will run indefinitely.
+
+        Returns:
+            None
+        """
 
         if self.camera != None:
             
@@ -391,7 +493,15 @@ class Camera:
 
     def grab_average(self, n : float) -> np.ndarray:
 
-        """Grabs a specific number of images and calculates the average color value from these images."""
+        """
+        Grabs a specific number of images and calculates the average color value from these images.
+                
+        Args:
+            n (float): The number of images to grab.
+        
+        Returns:
+            np.ndarray: An array containing the average color values in multiple color spaces, including R, G, B, X, Y, Z, L*, a*, and b*.
+        """
         
         if (n < 1):
             return np.zeros(9, dtype=float)
@@ -435,7 +545,15 @@ class Camera:
 
     def stop_grabbing(self) -> None:
         
-        """Stops grabbing images."""
+        """
+        Stops grabbing images.
+                
+        Args:
+            None
+
+        Returns:
+            None
+        """
 
         if self.camera.IsGrabbing():
             self.camera.StopGrabbing()
@@ -448,6 +566,7 @@ class Camera:
 
         Example code:
         
+        ```python
         # Create a camera
         camera = Camera('168.192.1.1')
 
@@ -462,6 +581,13 @@ class Camera:
 
         # Stop the thread by setting the event
         event.set()
+        ```
+
+        Args:
+            event (threading.Event): The threading event.
+
+        Returns:
+            None
         """
 
         if self.camera != None:
@@ -484,7 +610,15 @@ class Camera:
     
     def __substract_data(self, grab_result: pylon.GrabResult) -> np.ndarray:
         
-        """Processes the grab result and stores the data."""
+        """
+        Processes the grab result and stores the data.
+        
+        Args:
+            grab_result (pylon.GrabResult): The result of a grab operation to be processed.
+
+        Returns:
+            np.ndarray: An array containing the average color values in multiple color spaces, including R, G, B, X, Y, Z, L*, a*, and b*.
+        """
 
         # Get the image
         img = grab_result.GetArray().flatten() # shape of [w x b x 3]
@@ -536,7 +670,15 @@ class Camera:
 
     def rgb2xyz(self, rgb: np.ndarray) -> np.ndarray:
 
-        """Converts the color value from linear RGB to CIEXYZ color space."""
+        """
+        Converts the color value from linear RGB to CIEXYZ color space.
+                
+        Args:
+            rgb (np.ndarray): An array containing the color values in linear RGB color space.
+
+        Returns:
+            np.ndarray: An array containing the color values in CIEXYZ color space.
+        """
 
         r = rgb[0]/255
         g = rgb[1]/255
@@ -552,7 +694,15 @@ class Camera:
 
     def xyz2lab(self, xyz: np.ndarray) -> np.ndarray:
     
-        """Converts the color values from CIEXYZ to CIELAB color space."""
+        """
+        Converts the color values from CIEXYZ to CIELAB color space.
+                
+        Args:
+            xyz (np.ndarray): An array containing the color values in CIEXYZ color space.
+
+        Returns:
+            np.ndarray: An array containing the color values in CIELAB color space.
+        """
 
         if xyz[0]/self.whitepoint[0] > _DELTA**3.0:
             fx = (xyz[0]/self.whitepoint[0])**(1.0/3.0)
@@ -579,14 +729,32 @@ class Camera:
 
     def rgb2lab(self, rgb: np.ndarray) -> np.ndarray:
 
-        """Converts the color values from linear RGB to CIELAB color space."""
+        """
+        Converts the color values from linear RGB to CIELAB color space.
+                
+        Args:
+            rgb (np.ndarray): An array containing the color values in linear RGB color space.
+
+        Returns:
+            np.ndarray: An array containing the color values in CIELAB color space.
+        """
 
         return self.xyz2lab(self.rgb2xyz(rgb))
     
     
     def set_whitepoint(self, x: float=0.94811,  y: float=1.0, z: float=1.07304) -> None:
         
-        """Sets the white point. Default is D65."""
+        """
+        Sets the white point. Default is D65.
+                
+        Args:
+            x (float, optional): The x coordinate of the white point in the CIEXYZ color space. Defaults to 0.94811.
+            y (float, optional): The y coordinate of the white point in the CIEXYZ color space. Defaults to 1.0.
+            z (float, optional): The z coordinate of the white point in the CIEXYZ color space. Defaults to 1.07304.
+
+        Returns:
+            None
+        """
 
         self.whitepoint = np.ones(3)
         self.whitepoint[0] = x
@@ -596,7 +764,15 @@ class Camera:
 
     def set_gain(self, gain: float) -> None:
 
-        """Sets the gain."""
+        """
+        Sets the gain.
+                
+        Args:
+            gain (float): The gain value to be set. It should be a positive number representing the amplification level.
+
+        Returns:
+            None
+        """
 
         self.open()
         self.camera.Gain.SetValue(gain)
@@ -604,14 +780,30 @@ class Camera:
 
     def get_gain(self) -> float:
         
-        """Gets the gain."""
+        """
+        Gets the gain.
+                
+        Args:
+            None
+
+        Returns:
+            float: The current gain value.
+        """
 
         return self.camera.Gain.GetValue()
     
 
     def set_exposure_time(self, time: float) -> None:
 
-        """Sets the exposure time."""
+        """
+        Sets the exposure time.
+        
+        Args:
+            time (float): The exposure time to set, in ms.
+
+        Returns:
+            None
+        """
         
         self.open()
         self.camera.ExposureTime.SetValue(time)
@@ -619,14 +811,32 @@ class Camera:
     
     def get_exposure_time(self) -> float:
         
-        """Gets the exposure time."""
+        """
+        Gets the exposure time.
+        
+        Args:
+            None
+
+        Returns:
+            float: the current exposure time, in ms. 
+        """
 
         return self.camera.ExposureTime.GetValue()
 
 
     def set_white_balance_ratio(self, r: float, g: float, b: float) -> None:
         
-        """Sets the white balance ratio."""
+        """
+        Sets the white balance ratio.
+        
+        Args:
+            r (float): The white balance ratio for the red channel.
+            g (float): The white balance ratio for the green channel.
+            b (float): The white balance ratio for the blue channel.
+
+        Returns:
+            None
+        """
 
         self.open()
         self.camera.BalanceRatioSelector.SetValue('Red')
@@ -639,7 +849,15 @@ class Camera:
 
     def get_white_balance_ratio(self) -> np.ndarray:
         
-        """Gets the white balance ratio."""
+        """
+        Gets the white balance ratio.
+                
+        Args:
+            None
+
+        Returns:
+            np.ndarray: An array containing the white balance ratios for the red, green and blue channels.
+        """
 
         balance = np.ones(3)
         self.camera.BalanceRatioSelector.SetValue('Red')
@@ -654,7 +872,15 @@ class Camera:
 
     def set_database_path(self, file: str) -> None:
         
-        """Sets and initiates the CSV database."""
+        """
+        Sets and initiates the CSV database.
+                
+        Args:
+            file (str): The CSV filepath. 
+
+        Returns:
+            None
+        """
 
         self.__database = file
 
@@ -670,7 +896,15 @@ class Camera:
 
     def get_database_path(self) -> str:
 
-        """Gets the path of the CSV database."""
+        """
+        Gets the path of the CSV database.
+                
+        Args:
+            None
+
+        Returns:
+            str: The CSV filepath. 
+        """
 
         return self.__database
     
@@ -740,6 +974,7 @@ if __name__ == "__main__":
 
     # Initiate the camera
     camera = Camera("10.129.4.180")
+    camera.write_to_database = False
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
@@ -747,13 +982,9 @@ if __name__ == "__main__":
     camera.set_whitepoint(0.9225, 0.9583, 1.0468)
     camera.set_exposure_time(16000)
     camera.set_gain(2.52)
-
-    # Write to database
-    camera.set_database_path("D:/GitHub/ConcreteCandyTracker/log/test.csv")
-    camera.write_to_database = True
     
-    # Grab 60 images and calculate the average color value
-    camera.grab_average(500)
+    # Grab 300 images and calculate the average color value
+    camera.grab_average(300)
     
     # End
     logging.info("End")
