@@ -5,7 +5,6 @@ information and the LICENSE file, see <https://github.com/3DCP-TUe/ConcreteCandy
 
 Authors: 
 - Arjen Deetman
-  3D Concrete Printing Research Group a Eindhoven University of Technology.
 """
 
 import asyncio
