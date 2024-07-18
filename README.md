@@ -43,6 +43,8 @@ Access Node-RED at:
 
 **[src/camera.py](src/camera.py):** Contains the camera class. 
 
+**[src/calibration.py](src/calibration.py):** Contains scripts for setting up a Camera instance, capturing a specified number of images, and calculating the average color values from these images. This file is used for calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the settings, make sure to copy them to your script used for experiments.
+
 **[src/opcua_local_server.py](src/opcua_local_server.py):** Sets up a local OPC UA server, captures color values, and makes them available for external access.
 
 **[src/opcua_remote_server.py](src/opcua_remote_server.py):** Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
