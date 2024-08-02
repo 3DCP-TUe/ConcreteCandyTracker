@@ -27,7 +27,7 @@ The current release is tested with Python 3.8 and requires the following librari
 
 Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI) and calibrating the orientation of the polarization filter. 
 
-### Node-red
+### Node-RED
 
 [Node-RED](https://nodered.org/) is optional but recommended for creating a simple live dashboard. Install Node-Red along with the following packages:
 
