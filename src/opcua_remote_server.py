@@ -1,10 +1,15 @@
 """
+Concrete Candy Tracker
+
 This file is part of Concrete Candy Tracker. Concrete Candy Tracker is licensed under the 
 terms of GNU General Public License as published by the Free Software Foundation. For more 
 information and the LICENSE file, see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 
-Authors: 
-- Arjen Deetman
+Connects to an external OPC UA server, captures color values, and writes them to the 
+server (e.g., an industrial PLC).
+
+Dependencies:
+- asyncua: Set up an OPC UA server. 
 """
 
 import asyncio

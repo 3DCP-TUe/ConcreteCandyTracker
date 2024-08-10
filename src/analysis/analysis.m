@@ -3,8 +3,7 @@ This file is part of Concrete Candy Tracker. Concrete Candy Tracker is licensed 
 terms of GNU General Public License as published by the Free Software Foundation. For more 
 information and the LICENSE file, see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 
-Authors: 
-- Arjen Deetman
+Example script to extract the residence time distribution and its properties from the acquired data. 
 %}
 
 %% Clear and close

@@ -1,10 +1,17 @@
 """
+Concrete Candy Tracker
+
 This file is part of Concrete Candy Tracker. Concrete Candy Tracker is licensed under the 
 terms of GNU General Public License as published by the Free Software Foundation. For more 
 information and the LICENSE file, see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 
-Authors: 
-- Arjen Deetman
+Contains the camera clas that provides the implementation for interfacing with an 
+industrial camera using the `pypylon` library. Includes methods for initializing 
+the camera, capturing images, and managing camera settings.
+
+Dependencies:
+- pypylon: Connect to the industrial camera.
+- numpy: Numerical operations. 
 """
 
 import logging
