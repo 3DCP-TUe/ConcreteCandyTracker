@@ -62,15 +62,15 @@ class Camera:
         self.set_roi() # Default: full resolution
 
         # Latest measured color values
-        self.r = 0.0
-        self.g = 0.0
-        self.b = 0.0
-        self.x = 0.0
-        self.y = 0.0
-        self.z = 0.0
-        self.l_star = 0.0
-        self.a_star = 0.0
-        self.b_star = 0.0
+        self._r = 0.0
+        self._g = 0.0
+        self._b = 0.0
+        self._x = 0.0
+        self._y = 0.0
+        self._z = 0.0
+        self._l_star = 0.0
+        self._a_star = 0.0
+        self._b_star = 0.0
 
         # Write to CSV file
         self.write_to_database = False
@@ -653,15 +653,15 @@ class Camera:
         b_star = np.round(lab[2], 6)
                 
         # Set latest measured color values
-        self.r = r
-        self.g = g
-        self.b = b
-        self.x = x
-        self.y = y
-        self.z = z
-        self.l_star = l_star
-        self.a_star = a_star
-        self.b_star = b_star
+        self._r = r
+        self._g = g
+        self._b = b
+        self._x = x
+        self._y = y
+        self._z = z
+        self._l_star = l_star
+        self._a_star = a_star
+        self._b_star = b_star
 
         # Log
         logging.info("{0}, R={1:.1f}, G={2:.1f}, B={3:.1f}, X={4:.4f}, Y={5:.4f}, Z={6:.4f}, L*={7:.4f}, a*={8:.4f}, b*={9:.4f}".format(date, r, g, b, x, y, z, l_star, a_star, b_star))
@@ -914,6 +914,114 @@ class Camera:
         """
 
         return self.__database
+    
+    @property
+    def _r(self) -> float:
+        
+        """
+        Gets the latest captured red color value.
+
+        Returns:
+            float: Red color value.
+        """
+                
+        return self._r
+
+    @property
+    def _g(self) -> float:
+
+        """
+        Gets the latest captured green color value.
+
+        Returns:
+            float: Green color value.
+        """
+                
+        return self._g
+
+    @property
+    def _b(self) -> float:
+
+        """
+        Gets the latest captured blue color value.
+
+        Returns:
+            float: Blue color value.
+        """
+                
+        return self._b
+
+    @property
+    def _x(self) -> float:
+
+        """
+        Gets the latest captured X color value.
+
+        Returns:
+            float: Color value X.
+        """
+        
+        return self._x
+
+    @property
+    def _y(self) -> float:
+
+        """
+        Gets the latest captured Y color value.
+
+        Returns:
+            float: Color value Y.
+        """
+
+        return self._y
+
+    @property
+    def _z(self) -> float:
+
+        """
+        Gets the latest captured Z color value.
+
+        Returns:
+            float: Color value Z.
+        """
+
+        return self._z
+
+    @property
+    def _l_star(self) -> float:
+
+        """
+        Gets the latest captured L* color value.
+
+        Returns:
+            float: Color value L*.
+        """
+                
+        return self._l_star
+
+    @property
+    def _a_star(self) -> float:
+        
+        """
+        Gets the latest captured a* color value.
+
+        Returns:
+            float: Color value a*.
+        """
+                
+        return self._a_star
+
+    @property
+    def _b_star(self) -> float:
+
+        """
+        Gets the latest captured b* color value.
+
+        Returns:
+            float: Color value b*.
+        """
+        
+        return self._b_star
     
     
 class ConfigurationEventHandler(pylon.ConfigurationEventHandler):
