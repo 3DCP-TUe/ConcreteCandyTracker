@@ -27,7 +27,7 @@ The current release is tested with Python 3.8 and requires the following librari
 
 Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI) and calibrating the orientation of the polarization filter. 
 
-### Node-red
+### Node-RED
 
 [Node-RED](https://nodered.org/) is optional but recommended for creating a simple live dashboard. Install Node-Red along with the following packages:
 
@@ -53,9 +53,9 @@ Access Node-RED at:
 
 **[scr/node-red/remote_server_dashboard.json](src/node-red/remote_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the remote OPC UA server.
 
-**[scr/benchmarks/color_transformations.m](src/benchmarks/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
+**[scr/benchmark/color_transformations.m](src/benchmark/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
-**[scr/analysis/analysis.m](src/analysis/analysis.m):** MATLAB script to extract the residence time distribution and its properties from the acquired data. 
+**[scr/analysis/](src/analysis/):** This folder contains templates for data analysis. 
 
 ## Calibration procedure/checklist
 
