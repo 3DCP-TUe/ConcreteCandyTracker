@@ -41,9 +41,9 @@ Access Node-RED at:
 
 ## Explanation of the files
 
-**[src/camera.py](src/camera.py):** Contains the camera class. 
+**[src/camera.py](src/camera.py):** Contains the camera clas that provides the implementation for interfacing with an industrial camera using the pypylon library. Includes methods for initializing the camera, capturing images, and managing camera settings. 
 
-**[src/calibration.py](src/calibration.py):** Contains scripts for setting up a Camera instance, capturing a specified number of images, and calculating the average color values from these images. This file is used for calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the settings, make sure to copy them to your script used for experiments.
+**[src/calibration.py](src/calibration.py):** This file is used for calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the settings, make sure to copy them to your script used for experiments.
 
 **[src/opcua_local_server.py](src/opcua_local_server.py):** Sets up a local OPC UA server, captures color values, and makes them available for external access.
 
