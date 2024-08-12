@@ -675,6 +675,38 @@ class Camera:
         return np.concatenate([rgb, xyz, lab])
 
 
+    def save_image(self, filename: str) -> None:
+
+        """
+        Captures an image from the camera and saves it as a JPG file.
+
+        Args:
+            filename (str): The file path where the image will be saved.
+
+        Returns:
+            None
+        """
+
+        if self.camera != None:
+            
+            # Grab the image
+            self.camera.StartGrabbing(pylon.GrabStrategy_LatestImageOnly)
+            grab_result = self.camera.RetrieveResult(1000, pylon.TimeoutHandling_Return)
+            
+            if grab_result.GrabSucceeded():
+                
+                # Access the image data
+                image = pylon.PylonImage()
+                image.AttachGrabResultBuffer(grab_result)
+
+                # Save the image as a JPG file
+                image.Save(pylon.ImageFileFormat_Jpeg, filename)
+                logging.info(f"Image saved as {filename}")
+            
+            grab_result.Release()
+            self.camera.StopGrabbing()
+
+
     def rgb2xyz(self, rgb: np.ndarray) -> np.ndarray:
 
         """
@@ -915,8 +947,9 @@ class Camera:
 
         return self.__database
     
+    
     @property
-    def _r(self) -> float:
+    def r(self) -> float:
         
         """
         Gets the latest captured red color value.
@@ -927,8 +960,9 @@ class Camera:
                 
         return self._r
 
+
     @property
-    def _g(self) -> float:
+    def g(self) -> float:
 
         """
         Gets the latest captured green color value.
@@ -939,8 +973,9 @@ class Camera:
                 
         return self._g
 
+
     @property
-    def _b(self) -> float:
+    def b(self) -> float:
 
         """
         Gets the latest captured blue color value.
@@ -951,8 +986,9 @@ class Camera:
                 
         return self._b
 
+
     @property
-    def _x(self) -> float:
+    def x(self) -> float:
 
         """
         Gets the latest captured X color value.
@@ -963,8 +999,9 @@ class Camera:
         
         return self._x
 
+
     @property
-    def _y(self) -> float:
+    def y(self) -> float:
 
         """
         Gets the latest captured Y color value.
@@ -975,8 +1012,9 @@ class Camera:
 
         return self._y
 
+
     @property
-    def _z(self) -> float:
+    def z(self) -> float:
 
         """
         Gets the latest captured Z color value.
@@ -987,8 +1025,9 @@ class Camera:
 
         return self._z
 
+
     @property
-    def _l_star(self) -> float:
+    def l_star(self) -> float:
 
         """
         Gets the latest captured L* color value.
@@ -999,8 +1038,9 @@ class Camera:
                 
         return self._l_star
 
+
     @property
-    def _a_star(self) -> float:
+    def a_star(self) -> float:
         
         """
         Gets the latest captured a* color value.
@@ -1011,8 +1051,9 @@ class Camera:
                 
         return self._a_star
 
+
     @property
-    def _b_star(self) -> float:
+    def b_star(self) -> float:
 
         """
         Gets the latest captured b* color value.
@@ -1100,6 +1141,6 @@ if __name__ == "__main__":
     
     # Grab 300 images and calculate the average color value
     camera.grab_average(300)
-    
+
     # End
     logging.info("End")
