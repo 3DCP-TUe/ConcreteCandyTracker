@@ -11,7 +11,7 @@
 
 	"license": "GPL-3.0",
 
-	"title": "Concrete Candy Tracker",
+	"title": "Concrete Candy Tracker: Software for tracer experiments in concrete processing",
 
 	"description": "Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled 'An in-line dye tracer experiment to measure the residence time in continuous concrete processing'. The experiment uses a digital image processing (DIP) technique to detect a dye — Rhomadine B — which stains the concrete with a candy cane-like effect.",
 
