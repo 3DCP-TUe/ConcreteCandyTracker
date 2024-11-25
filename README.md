@@ -97,6 +97,15 @@ Additional steps in case a bandpass filter is used:
 - Ensure the polarization filter is in the correct orientation.
 - Recalibrate the gain value with an 18% grey card. Adjust the gain value to scale the L* value of the CIELAB color space to 50%. Use the already measured white reference point for this step. 
 
+## Version numbering
+Concrete Candy Tracker uses the following [Semantic Versioning](https://semver.org/) scheme: 
+
+```
+0.x.x ---> MAJOR version when you make incompatible API changes
+x.0.x ---> MINOR version when you add functionality in a backward-compatible manner
+x.x.0 ---> PATCH version when you make backward-compatible bug fixes
+```
+
 ## Funding
 
 This software could be developed and maintained with the financial support of the following projects:
