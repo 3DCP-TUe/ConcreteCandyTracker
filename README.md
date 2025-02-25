@@ -55,7 +55,7 @@ Access Node-RED at:
 
 **[scr/benchmark/color_transformations.m](src/benchmark/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
-**[scr/analysis/](analysis/):** This folder contains templates for data analysis and has its own README file. 
+**[scr/analysis/](scr/analysis/):** This folder contains templates for data analysis and has its own README file. 
 
 ## Calibration procedure/checklist
 
