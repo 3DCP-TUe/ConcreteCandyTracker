@@ -49,13 +49,13 @@ Access Node-RED at:
 
 **[src/opcua_remote_server.py](src/opcua_remote_server.py):** Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
 
-**[scr/node-red/local_server_dashboard.json](src/node-red/local_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the local OPC UA server.
+**[src/node-red/local_server_dashboard.json](src/node-red/local_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the local OPC UA server.
 
-**[scr/node-red/remote_server_dashboard.json](src/node-red/remote_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the remote OPC UA server.
+**[src/node-red/remote_server_dashboard.json](src/node-red/remote_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the remote OPC UA server.
 
-**[scr/benchmark/color_transformations.m](src/benchmark/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
+**[src/benchmark/color_transformations.m](src/benchmark/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
-**[scr/analysis/](scr/analysis/):** This folder contains templates for data analysis and has its own README file. 
+**[src/analysis/](src/analysis/):** This folder contains templates for data analysis and has its own README file. 
 
 ## Calibration procedure/checklist
 
