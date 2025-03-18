@@ -40,11 +40,6 @@ classdef candy
             if ~ismember("concentration", data.Properties.VariableNames)
                 error("Column 'concentration' is missing in the dataset.");
             end
-
-            % Ensure time is sorted
-            if ~issorted(data.Time)
-                error('Time column must be sorted.');
-            end
         
             % Ensure input windows are sorted
             if ~issorted(window)
@@ -65,6 +60,11 @@ classdef candy
                 end
                 
                 data.Time = data.time;
+            end
+
+            % Ensure time is sorted
+            if ~issorted(data.Time)
+                error('Time column must be sorted.');
             end
         
             % Select window indices
@@ -120,6 +120,14 @@ classdef candy
             else
                 subset.rtd = subset.concentration ./ area;
             end
+
+            % Add missing columns (make it suitable for other applications)
+            columns = {'R', 'G', 'B', 'X', 'Y', 'Z', 'L_', 'a_', 'b_'};
+            for i = 1:length(columns)
+                if ~ismember(columns{i}, subset.Properties.VariableNames)
+                    subset.(columns{i}) = nan(height(subset), 1);
+                end
+            end
        
             % Construct result table
             rtd = table(subset.Time, subset.response_time, subset.rtd, ...
@@ -137,11 +145,6 @@ classdef candy
             % Check if column concentration is defined
             if ~ismember("concentration", data.Properties.VariableNames)
                 error("Column 'concentration' is missing in the dataset.");
-            end
-
-            % Ensure time is sorted
-            if ~issorted(data.Time)
-                error('Time column must be sorted.');
             end
         
             % Ensure input windows are sorted
@@ -163,6 +166,11 @@ classdef candy
                 end
                 
                 data.Time = data.time;
+            end
+
+            % Ensure time is sorted
+            if ~issorted(data.Time)
+                error('Time column must be sorted.');
             end
         
             % Select window indices
@@ -207,6 +215,14 @@ classdef candy
             % Normalize part 2: scale
             mean2 = mean(subset(index3:index4, subset.Properties.VariableNames).concentration, 'omitnan');
             subset.concentration = subset.concentration / mean2;
+            
+            % Add missing columns (make it suitable for other applications)
+            columns = {'R', 'G', 'B', 'X', 'Y', 'Z', 'L_', 'a_', 'b_'};
+            for i = 1:length(columns)
+                if ~ismember(columns{i}, subset.Properties.VariableNames)
+                    subset.(columns{i}) = nan(height(subset), 1);
+                end
+            end
 
             % Construct result table
             response = table(subset.Time, subset.response_time, subset.concentration, ...
@@ -225,12 +241,7 @@ classdef candy
             if ~ismember("concentration", data.Properties.VariableNames)
                 error("Column 'concentration' is missing in the dataset.");
             end
-
-            % Ensure time is sorted
-            if ~issorted(data.Time)
-                error('Time column must be sorted.');
-            end
-        
+       
             % Ensure input windows are sorted
             if ~issorted(window)
                 error('Window must be sorted: window(1) < window(2).');
@@ -250,6 +261,11 @@ classdef candy
                 end
                 
                 data.Time = data.time;
+            end
+
+            % Ensure time is sorted
+            if ~issorted(data.Time)
+                error('Time column must be sorted.');
             end
         
             % Select window indices
@@ -294,6 +310,14 @@ classdef candy
             % Normalize part 2: scale
             mean1 = mean(subset(index1:index2, subset.Properties.VariableNames).concentration, 'omitnan');
             subset.concentration = subset.concentration / mean1;
+
+            % Add missing columns (make it suitable for other applications)
+            columns = {'R', 'G', 'B', 'X', 'Y', 'Z', 'L_', 'a_', 'b_'};
+            for i = 1:length(columns)
+                if ~ismember(columns{i}, subset.Properties.VariableNames)
+                    subset.(columns{i}) = nan(height(subset), 1);
+                end
+            end
 
             % Construct result table
             response = table(subset.Time, subset.response_time, subset.concentration, ...
@@ -370,7 +394,7 @@ classdef candy
                 % Mean and variance
                 cmax = 1;
                 ave = duration(0, 0, sum((cmax-(subset.value)).*subset.dt)./cmax);
-                var = duration(0, 0, 2*sum(seconds(subset.time_response).*(cmax-(subset.value)).*subset.dt)./cmax-seconds(ave)^2);
+                var = duration(0, 0, max(0, 2*sum(seconds(subset.time_response).*(cmax-(subset.value)).*subset.dt)./cmax-seconds(ave)^2));  % Ensure non-negative
                 sigma = duration(0, 0, sqrt(seconds(var)));
             
                 % Percentiles
@@ -412,7 +436,7 @@ classdef candy
                 % Mean and variance
                 cmax = 1;
                 ave = duration(0, 0, sum((cmax-(1-subset.value)).*subset.dt)./cmax);
-                var = duration(0, 0, 2*sum(seconds(subset.time_response).*(cmax-(1-subset.value)).*subset.dt)./cmax-seconds(ave)^2);
+                var = duration(0, 0, max(0, 2*sum(seconds(subset.time_response).*(cmax-(1-subset.value)).*subset.dt)./cmax-seconds(ave)^2));   % Ensure non-negative
                 sigma = duration(0, 0, sqrt(seconds(var)));
 
                 % Percentiles
