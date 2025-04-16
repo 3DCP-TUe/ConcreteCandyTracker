@@ -34,6 +34,51 @@ classdef candy
         
         % -----------------------------------------------------------------
 
+        function subset = get_subset(start_time, data, window)
+                   
+            % Ensure input windows are sorted
+            if ~issorted(window)
+                error('Window must be sorted: window(1) < window(2).');
+            end
+
+            % Check if column time or Time is defined
+            if ~ismember("Time", data.Properties.VariableNames)
+                
+                if ~ismember("time", data.Properties.VariableNames)
+                    error("Column 'Time' or 'time' is missing in the dataset.");
+                end
+                
+                data.Time = data.time;
+            end
+
+            % Ensure time is sorted
+            if ~issorted(data.Time)
+                error('Time column must be sorted.');
+            end
+
+            % Select window indices
+            [~, index_start] = min(abs(data.Time - start_time - window(1)));
+            [~, index_end] = min(abs(data.Time - start_time - window(2)));
+        
+            % Ensure indices are valid
+            index_start = max(1, min(index_start, height(data)));
+            index_end = max(1, min(index_end, height(data)));
+        
+            % Extract subset
+            subset = data(index_start:index_end, :);
+        
+            % Ensure subset is not empty
+            if isempty(subset)
+                error('Subset of data is empty. Check the window selection.');
+            end
+
+            % Set time relative to application of impulse input
+            subset.response_time = subset.Time - start_time;
+            subset.response_time.Format = 'hh:mm:ss.SSS';
+        end
+
+        % -----------------------------------------------------------------
+
         function [rtd, area] = get_rtd(impulse_time, data, window, window_start, window_end)
         
             % Check if column concentration is defined
@@ -67,28 +112,11 @@ classdef candy
                 error('Time column must be sorted.');
             end
         
-            % Select window indices
-            [~, index_start] = min(abs(data.Time - impulse_time - window(1)));
-            [~, index_end] = min(abs(data.Time - impulse_time - window(2)));
-        
-            % Ensure indices are valid
-            index_start = max(1, min(index_start, height(data)));
-            index_end = max(1, min(index_end, height(data)));
-        
             % Extract subset
-            subset = data(index_start:index_end, :);
-        
-            % Ensure subset is not empty
-            if isempty(subset)
-                error('Subset of data is empty. Check the window selection.');
-            end
-        
+            subset = candy.get_subset(impulse_time, data, window);
+               
             % Compute time differences
             subset.dt = [0; diff(seconds(subset.Time))];
-
-            % Set time relative to application of impulse input
-            subset.response_time = subset.Time - impulse_time;
-            subset.response_time.Format = 'hh:mm:ss.SSS';
         
             % Baseline correction indices
             [~, index0] = min(abs(subset.response_time)); % t = 0
@@ -173,28 +201,11 @@ classdef candy
                 error('Time column must be sorted.');
             end
         
-            % Select window indices
-            [~, index_start] = min(abs(data.Time - step_up_time - window(1)));
-            [~, index_end] = min(abs(data.Time - step_up_time - window(2)));
-        
-            % Ensure indices are valid
-            index_start = max(1, min(index_start, height(data)));
-            index_end = max(1, min(index_end, height(data)));
-        
             % Extract subset
-            subset = data(index_start:index_end, :);
-        
-            % Ensure subset is not empty
-            if isempty(subset)
-                error('Subset of data is empty. Check the window selection.');
-            end
+            subset = candy.get_subset(step_up_time, data, window);
         
             % Compute time differences
             subset.dt = [0; diff(seconds(subset.Time))];
-
-            % Set time relative to application of impulse input
-            subset.response_time = subset.Time - step_up_time;
-            subset.response_time.Format = 'hh:mm:ss.SSS';
         
             % Baseline correction indices
             [~, index1] = min(abs(subset.response_time - window_start(1))); % Start
@@ -268,28 +279,11 @@ classdef candy
                 error('Time column must be sorted.');
             end
         
-            % Select window indices
-            [~, index_start] = min(abs(data.Time - step_down_time - window(1)));
-            [~, index_end] = min(abs(data.Time - step_down_time - window(2)));
-        
-            % Ensure indices are valid
-            index_start = max(1, min(index_start, height(data)));
-            index_end = max(1, min(index_end, height(data)));
-        
             % Extract subset
-            subset = data(index_start:index_end, :);
-        
-            % Ensure subset is not empty
-            if isempty(subset)
-                error('Subset of data is empty. Check the window selection.');
-            end
-        
+            subset = candy.get_subset(step_down_time, data, window);
+
             % Compute time differences
             subset.dt = [0; diff(seconds(subset.Time))];
-
-            % Set time relative to application of impulse input
-            subset.response_time = subset.Time - step_down_time;
-            subset.response_time.Format = 'hh:mm:ss.SSS';
         
             % Baseline correction indices
             [~, index1] = min(abs(subset.response_time - window_start(1))); % Start
