@@ -34,7 +34,7 @@ if __name__ == "__main__":
     camera.set_gain(2.52)
 
     # Write to database
-    camera.set_database_path("D:/GitHub/ConcreteCandyTracker/log/test.csv")
+    camera.set_database_path(DATABASE)
     camera.write_to_database = True
     
     # Grab 300 images and calculate the average color value
