@@ -722,7 +722,7 @@ class Camera:
             self.camera.StopGrabbing()
 
 
-    def calibrate(self, tolerance: float = 0.2, max_iterations: int = 500) -> None:
+    def color_calibration(self, tolerance: float = 0.2, max_iterations: int = 500) -> None:
         
         """
         Calibrates the gain value and white balance ratio of the camera efficiently.

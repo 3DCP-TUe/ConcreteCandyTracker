@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Calibrate gain and white balance ratio
     input("Place the grey card and press Enter to continue...")
     camera.set_database_path(DATABASE_GREY)
-    camera.calibrate()
+    camera.color_calibration()
 
     # Calibrate white_point
     input("Place the white card and press Enter to continue...")
