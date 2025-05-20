@@ -59,6 +59,29 @@ Access Node-RED at:
 
 **[src/analysis/](src/analysis/):** This folder contains templates for data analysis and has its own README file. 
 
+## Camera Network Connection (GigE Optimization)
+
+To ensure reliable and high-performance image acquisition from a Basler GigE camera, follow these steps:
+
+1. Enable Jumbo Frames on the used network adapter (if supported):
+   - Open the **Device Manager**
+   - Go to **Network Adapters**, right-click the Ethernet adapter used, select **Properties**
+   - In the **Advanced** tab, find the property labeled "**Jumbo Frame**" or "**Jumbo Packet**" and set it to 9014 bytes (or maximum available value)
+   - Click **OK** and restart the network interface
+
+2. Optimize bandwidth settings in Pylon Viewer
+   - Open **Pylon Viewer**
+   - Connect to your camera
+   - Open the [**Bandwidth Manager**](https://docs.baslerweb.com/bandwidth-manager)
+   - Select your camera and run the optimization process
+   - After optimization, close the **Bandwidth Manager**
+   - Go to the **Transport Layer** settings
+   - Note the values set for **Packet Size** and **Inter-Packet Delay**
+   - Apply the values for **Packet Size** and **Inter-Packet Delay** in your Python script using the appropriate methods on the Camera instance: `set_packet_size` and `set_inter_packet_delay`
+
+**Note**: You may need to re-adjust these values if you change network cables, adapters, or other system hardware, as optimal settings can vary.
+
+
 ## Calibration procedure/checklist
 
 Mounting:
