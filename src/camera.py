@@ -126,6 +126,7 @@ class Camera:
         self.open()
         self.camera.RegisterImageEventHandler(ImageEventHandler(self), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
         self.camera.RegisterConfiguration(ConfigurationEventHandler(self), pylon.RegistrationMode_Append, pylon.Cleanup_Delete)
+        self.close()
 
 
     def reset(self) -> None:
@@ -144,6 +145,7 @@ class Camera:
         self.set_whitepoint()
         self.set_default_camera_settings()
         self.set_roi()
+        self.close()
 
 
     def open(self) -> None:
@@ -190,7 +192,10 @@ class Camera:
         """
 
         self.open()
-        return self.camera.DeviceTemperature.GetValue()
+        temperature = self.camera.DeviceTemperature.GetValue()
+        self.close()
+
+        return temperature
 
 
     def set_roi(self, offset_x: int=0, offset_y: int=0 , width: int=None, height: int=None) -> None:
@@ -238,6 +243,8 @@ class Camera:
         self.camera.Height.SetValue(height)
         self.camera.OffsetX.SetValue(offset_x)
         self.camera.OffsetY.SetValue(offset_y)
+
+        self.close()
 
 
     def set_default_camera_settings(self) -> None:
@@ -435,6 +442,8 @@ class Camera:
         # Image Format Conversion
         ## Not used: set to default
 
+        self.close()
+
 
     def get_resulting_frame_rate(self) -> float:
         
@@ -448,7 +457,11 @@ class Camera:
             float: The resulting frame rate in fps. 
         """
         
-        return self.camera.ResultingFrameRate.GetValue()
+        self.open()
+        frame_rate = self.camera.ResultingFrameRate.GetValue()
+        self.close() 
+        
+        return frame_rate
     
 
     def is_grabbing(self) -> bool:
@@ -613,6 +626,8 @@ class Camera:
                 if event.is_set():
                     self.camera.StopGrabbing()
                     break
+        
+            self.close()
 
     
     def __substract_data(self, grab_result: pylon.GrabResult) -> np.ndarray:
@@ -707,6 +722,117 @@ class Camera:
             self.camera.StopGrabbing()
 
 
+    def calibrate(self, tolerance: float = 0.1, max_iterations: int = 100) -> None:
+        
+        """
+        Calibrates the gain value and white balance ratio of the camera efficiently.
+
+        Place an 18% grey card in the ROI of the camera to calibrate these values.
+
+        Args:
+            tolerance (float): The acceptable deviation from 46 for RGB values.
+            max_iterations (int): The maximum number of calibration attempts.
+
+        Returns:
+            None
+        """
+        
+        logging.info("Start of calibration procedure.")
+        
+        target_value = 46 
+        iteration = 0
+
+        while iteration < max_iterations:
+            
+            # Get RGB color values
+            color_values = self.grab_average(60)
+            r = color_values[0]
+            g = color_values[1]
+            b = color_values[2]
+
+            # Differences
+            diff_r = abs(r - target_value)
+            diff_g = abs(g - r)
+            diff_b = abs(b - r)
+            diff_gain = diff_r
+
+            # Check if all values are within tolerance
+            if (diff_r <= tolerance and diff_g <= tolerance and diff_b <= tolerance):
+                break  # Stop calibration
+
+            # Get current settings
+            ratios = self.get_white_balance_ratio()
+            gain = self.get_gain()
+
+            # Compute adaptive step size (10% of the difference, min 0.01)
+            step_g = max(min(diff_g * 0.005, 0.1), 0.001)
+            step_b = max(min(diff_b * 0.005, 0.1), 0.001)
+            step_gain = max(min(diff_gain * 0.01, 0.1), 0.001)
+
+            # Adjust white balance ratios
+            ## Green channel
+            if g < r:
+                ratios[1] += step_g
+            elif g > r:
+                ratios[1] -= step_g
+            ## Blue channel
+            if b < r:
+                ratios[2] += step_b
+            elif b > r:
+                ratios[2] -= step_b
+                
+            # Adjust gain towards 46
+            if r < target_value:
+                gain += step_gain
+            elif r > target_value:
+                gain -= step_gain
+
+            # Update camera settings
+            self.set_white_balance_ratio(1, ratios[1], ratios[2])
+            self.set_gain(gain)
+
+            iteration += 1  # Increment iteration counter
+
+            if iteration == max_iterations:
+                logging.warning("Calibration stopped after reaching max iterations.")
+                break
+
+        # Log set values
+        logging.info("Resulting white balance ratios    :   {0:.4f}, {1:.4f}, {2:.4f}".format(ratios[0], ratios[1], ratios[2]))
+        logging.info("Resulting gain value              :   {0:.4f}".format(gain))
+        logging.info("End of calibration procedure.")
+
+
+    def calibrate_white_point(self) -> None:
+        
+        """
+        Calibrates ans sets the white point needed for color transformations.
+
+        Place a awhite card in the ROI of the camera to calibrate these values.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        
+        logging.info("Start of white point calibration procedure.")
+            
+        # Get color values
+        color_values = self.grab_average(60)
+        x = color_values[6]
+        y = color_values[7]
+        z = color_values[8]
+
+        # Set white point
+        self.set_whitepoint(x, y, z)
+        
+        # Log set values
+        logging.info("Resulting white point     :   {0:.4f}, {1:.4f}, {2:.4f}".format(x, y, z))
+        logging.info("End of white point calibration procedure.")
+
+
     def rgb2xyz(self, rgb: np.ndarray) -> np.ndarray:
 
         """
@@ -795,10 +921,12 @@ class Camera:
             None
         """
 
+        self.open()
         self.whitepoint = np.ones(3)
         self.whitepoint[0] = x
         self.whitepoint[1] = y
         self.whitepoint[2] = z
+        self.close()
 
 
     def set_gain(self, gain: float) -> None:
@@ -830,7 +958,11 @@ class Camera:
             float: The current gain value.
         """
 
-        return self.camera.Gain.GetValue()
+        self.open()
+        gain = self.camera.Gain.GetValue()
+        self.close()
+
+        return gain
     
 
     def set_exposure_time(self, time: float) -> None:
@@ -862,7 +994,11 @@ class Camera:
             float: the current exposure time, in microsecond. 
         """
 
-        return self.camera.ExposureTime.GetValue()
+        self.open()
+        time = self.camera.ExposureTime.GetValue()
+        self.close()
+
+        return time
 
 
     def set_packet_size(self, packet_size: int) -> None:
@@ -894,7 +1030,11 @@ class Camera:
             int: the packet size, in bytes. 
         """
 
-        return self.camera.GevSCPSPacketSize.GetValue()
+        self.open()
+        packet_size = self.camera.GevSCPSPacketSize.GetValue()
+        self.close()
+
+        return packet_size
     
 
     def set_inter_packet_delay(self, delay: int) -> None:
@@ -926,7 +1066,11 @@ class Camera:
             int: the inter packet delay, in ticks. 
         """
 
-        return self.camera.GevSCPD.GetValue()
+        self.open()
+        delay = self.camera.GevSCPD.GetValue()
+        self.close()
+
+        return delay
 
 
     def set_white_balance_ratio(self, r: float, g: float, b: float) -> None:
@@ -950,6 +1094,7 @@ class Camera:
         self.camera.BalanceRatio.SetValue(g)
         self.camera.BalanceRatioSelector.SetValue('Blue')
         self.camera.BalanceRatio.SetValue(b)
+        self.close()
 
 
     def get_white_balance_ratio(self) -> np.ndarray:
@@ -964,6 +1109,8 @@ class Camera:
             np.ndarray: An array containing the white balance ratios for the red, green and blue channels.
         """
 
+        self.open()
+       
         balance = np.ones(3)
         self.camera.BalanceRatioSelector.SetValue('Red')
         balance[0] = self.camera.BalanceRatio.GetValue()
@@ -971,6 +1118,8 @@ class Camera:
         balance[1] = self.camera.BalanceRatio.GetValue()
         self.camera.BalanceRatioSelector.SetValue('Blue')
         balance[2] = self.camera.BalanceRatio.GetValue()
+       
+        self.close()
         
         return balance
     
