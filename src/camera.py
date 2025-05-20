@@ -409,8 +409,8 @@ class Camera:
         ## Not used: set to default
 
         # Transport Layer Control
-        self.camera.GevSCPSPacketSize.SetValue(1500)
-        self.camera.GevSCPD.SetValue(512)
+        self.camera.GevSCPSPacketSize.SetValue(8192) # Packet size
+        self.camera.GevSCPD.SetValue(7643) # Inter-Packet Delay
         self.camera.GevSCFTD.SetValue(0)
         self.camera.BandwidthReserveMode.SetValue("Standard")
         self.camera.BslPtpProfile.SetValue("DelayRequestResponseDefaultProfile")
@@ -815,6 +815,7 @@ class Camera:
 
         self.open()
         self.camera.Gain.SetValue(gain)
+        self.close()
 
 
     def get_gain(self) -> float:
@@ -846,8 +847,9 @@ class Camera:
         
         self.open()
         self.camera.ExposureTime.SetValue(time)
+        self.close()
 
-    
+
     def get_exposure_time(self) -> float:
         
         """
@@ -861,6 +863,70 @@ class Camera:
         """
 
         return self.camera.ExposureTime.GetValue()
+
+
+    def set_packet_size(self, packet_size: int) -> None:
+
+        """
+        Sets the packet size.
+        
+        Args:
+            packet_size (int): The packet size to be set, in bytes.
+
+        Returns:
+            None
+        """
+        
+        self.open()
+        self.camera.GevSCPSPacketSize.SetValue(packet_size)
+        self.close()
+
+
+    def get_packet_size(self) -> int:
+        
+        """
+        Gets the packet size.
+        
+        Args:
+            None
+
+        Returns:
+            int: the packet size, in bytes. 
+        """
+
+        return self.camera.GevSCPSPacketSize.GetValue()
+    
+
+    def set_inter_packet_delay(self, delay: int) -> None:
+
+        """
+        Sets the inter packet delay
+        
+        Args:
+            delay (int): The inter packet delay to be set, in ticks.
+
+        Returns:
+            None
+        """
+        
+        self.open()
+        self.camera.GevSCPD.SetValue(delay)
+        self.close()
+    
+
+    def get_inter_packet_delay(self) -> int:
+        
+        """
+        Gets the inter packet delay.
+        
+        Args:
+            None
+
+        Returns:
+            int: the inter packet delay, in ticks. 
+        """
+
+        return self.camera.GevSCPD.GetValue()
 
 
     def set_white_balance_ratio(self, r: float, g: float, b: float) -> None:

@@ -28,10 +28,14 @@ if __name__ == "__main__":
 
     # Camera settings
     camera.set_roi(int(1936/2-848/2), 340, 848, 300)
-    camera.set_white_balance_ratio(1.0, 0.550, 1.285)
-    camera.set_whitepoint(0.9225, 0.9583, 1.0468)
+    camera.set_white_balance_ratio(1.0, 0.551, 1.287)
+    camera.set_whitepoint(0.9313, 0.9716, 1.0598)
     camera.set_exposure_time(16000)
-    camera.set_gain(2.52)
+    camera.set_gain(3.95)
+
+    # Camera network settings   
+    camera.set_packet_size(8192)
+    camera.set_inter_packet_delay(7643)
 
     # Write to database
     camera.set_database_path(DATABASE)
