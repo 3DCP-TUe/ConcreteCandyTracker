@@ -722,7 +722,7 @@ class Camera:
             self.camera.StopGrabbing()
 
 
-    def calibrate(self, tolerance: float = 0.1, max_iterations: int = 100) -> None:
+    def calibrate(self, tolerance: float = 0.2, max_iterations: int = 500) -> None:
         
         """
         Calibrates the gain value and white balance ratio of the camera efficiently.
@@ -745,7 +745,7 @@ class Camera:
         while iteration < max_iterations:
             
             # Get RGB color values
-            color_values = self.grab_average(60)
+            color_values = self.grab_average(30)
             r = color_values[0]
             g = color_values[1]
             b = color_values[2]
@@ -765,9 +765,9 @@ class Camera:
             gain = self.get_gain()
 
             # Compute adaptive step size (10% of the difference, min 0.01)
-            step_g = max(min(diff_g * 0.005, 0.1), 0.001)
-            step_b = max(min(diff_b * 0.005, 0.1), 0.001)
-            step_gain = max(min(diff_gain * 0.01, 0.1), 0.001)
+            step_g = max(min(diff_g * 0.005, 0.1), 0.0001)
+            step_b = max(min(diff_b * 0.005, 0.1), 0.0001)
+            step_gain = max(min(diff_gain * 0.01, 0.1), 0.0001)
 
             # Adjust white balance ratios
             ## Green channel
