@@ -41,9 +41,11 @@ Access Node-RED at:
 
 ## Explanation of the files
 
-**[src/camera.py](src/camera.py):** Contains the camera clas that provides the implementation for interfacing with an industrial camera using the pypylon library. Includes methods for initializing the camera, capturing images, and managing camera settings. 
+**[src/camera.py](src/camera.py):** This file contains the camera class, which provides the implementation for interfacing with an industrial camera using the pypylon library. It includes methods for initializing the camera, capturing images, and managing camera settings. 
 
-**[src/calibration.py](src/calibration.py):** This file is used for calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the settings, make sure to copy them to your script used for experiments.
+**[src/calibration_auto.py](src/calibration_auto.py):** This file is used for autmomatic calibrating the camera. You need to run this script with reasonable starting values. Once you have obtained your settings, make sure to copy them to the script you used for experiments.
+
+**[src/calibration_manual.py](src/calibration_manual.py):** This file is used for manually calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the procedure and obtained the settings, make sure to copy them to your script used for experiments.
 
 **[src/opcua_local_server.py](src/opcua_local_server.py):** Sets up a local OPC UA server, captures color values, and makes them available for external access.
 
@@ -56,6 +58,29 @@ Access Node-RED at:
 **[src/benchmark/color_transformations.m](src/benchmark/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
 
 **[src/analysis/](src/analysis/):** This folder contains templates for data analysis and has its own README file. 
+
+## Camera Network Connection (GigE Optimization)
+
+To ensure reliable and high-performance image acquisition from a Basler GigE camera, follow these steps:
+
+1. Enable Jumbo Frames on the used network adapter (if supported):
+   - Open the **Device Manager**
+   - Go to **Network Adapters**, right-click the Ethernet adapter used, select **Properties**
+   - In the **Advanced** tab, find the property labeled "**Jumbo Frame**" or "**Jumbo Packet**" and set it to 9014 bytes (or maximum available value)
+   - Click **OK** and restart the network interface
+
+2. Optimize bandwidth settings in Pylon Viewer
+   - Open **Pylon Viewer**
+   - Connect to your camera
+   - Open the [**Bandwidth Manager**](https://docs.baslerweb.com/bandwidth-manager)
+   - Select your camera and run the optimization process
+   - After optimization, close the **Bandwidth Manager**
+   - Go to the **Transport Layer** settings
+   - Note the values set for **Packet Size** and **Inter-Packet Delay**
+   - Apply the values for **Packet Size** and **Inter-Packet Delay** in your Python script using the appropriate methods on the Camera instance: `set_packet_size` and `set_inter_packet_delay`
+
+**Note**: You may need to re-adjust these values if you change network cables, adapters, or other system hardware, as optimal settings can vary.
+
 
 ## Calibration procedure/checklist
 
@@ -81,7 +106,7 @@ Configuration:
 White Balance Calibration:
 
 - Run the data acquisition for at least one hour to heat the light source and camera. Do this for the calibration procedure and before you perform the experiment.
-- Calibrate the white balance with an 18% grey card. For this step, run the data acquisition for a short time each iteration (e.g., acquire 100 images). The goal is to set all linear RGB color values at 46. Adjust the gain value to scale all linear RGB color values. If values are below 46, increase the gain; if above 46, lower the gain. To obtain equally balanced color values: Set the white balance ratio R to 1.0. Adjust the white balance ratio G and B to obtain equal linear RGB color values of 46. If the color value G is below the color value R, increase the white balance G; if the color value G is above the color value R, decrease the white balance ratio G. Do the same for color value B. Note that changing the white balance G and B will affect all color values. Conduct several iterations with small adjustments to achieve linear RGB values of 46. Typical white balance ratios at TU/e are around 1.0, 0.545, and 1.257 for R, G, and B, respectively. Typical gain values are around 2.5-3.0, depending on the position of the light source.
+- Calibrate the white balance with an 18% grey card. For this step, you can use the `calibrate` function in the `Camera` class or adjust the values manually. For the latter, run the data acquisition for a short time each iteration (e.g., acquire 100 images). The goal is to set all linear RGB color values at 46. Adjust the gain value to scale all linear RGB color values. If values are below 46, increase the gain; if above 46, lower the gain. To obtain equally balanced color values: Set the white balance ratio R to 1.0. Adjust the white balance ratio G and B to obtain equal linear RGB color values of 46. If the color value G is below the color value R, increase the white balance G; if the color value G is above the color value R, decrease the white balance ratio G. Do the same for color value B. Note that changing the white balance G and B will affect all color values. Conduct several iterations with small adjustments to achieve linear RGB values of 46. Typical white balance ratios at TU/e are around 1.0, 0.545, and 1.257 for R, G, and B, respectively. Typical gain values are around 2.5-3.0, depending on the position of the light source.
 
 White Point Measurement:
 
