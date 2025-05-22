@@ -764,7 +764,7 @@ class Camera:
             ratios = self.get_white_balance_ratio()
             gain = self.get_gain()
 
-            # Compute adaptive step size (10% of the difference, min 0.01)
+            # Compute adaptive step size
             step_g = max(min(diff_g * 0.005, 0.1), 0.0001)
             step_b = max(min(diff_b * 0.005, 0.1), 0.0001)
             step_gain = max(min(diff_gain * 0.01, 0.1), 0.0001)
@@ -1353,7 +1353,11 @@ if __name__ == "__main__":
     camera.set_whitepoint(0.9225, 0.9583, 1.0468)
     camera.set_exposure_time(16000)
     camera.set_gain(2.52)
-    
+
+    # Camera network settings   
+    camera.set_packet_size(8192)
+    camera.set_inter_packet_delay(7643)
+
     # Grab 300 images and calculate the average color value
     camera.grab_average(300)
 

@@ -35,6 +35,10 @@ if __name__ == "__main__":
     camera.set_whitepoint() # Inital setting D65
     camera.write_to_database = True
 
+    # Camera network settings   
+    camera.set_packet_size(8192)
+    camera.set_inter_packet_delay(7643)
+
     # Calibrate gain and white balance ratio
     input("Place the grey card and press Enter to continue...")
     camera.set_database_path(DATABASE_GREY)
