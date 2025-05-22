@@ -25,11 +25,11 @@ The current release is tested with Python 3.8 and requires the following librari
 - To set up an OPC UA server or to write to an OPC UA server: [opcua-asyncio](https://github.com/FreeOpcUa/opcua-asyncio)
 - For numerical operations: [numpy](https://numpy.org/)
 
-Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI) and calibrating the orientation of the polarization filter. 
+Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/software/pylon/pylon-viewer/) for visual verification of the region of interest (ROI), calibrating the orientation of the polarization filter and optimization of the network settings.
 
 ### Node-RED
 
-[Node-RED](https://nodered.org/) is optional but recommended for creating a simple live dashboard. Install Node-Red along with the following packages:
+[Node-RED](https://nodered.org/) is optional but recommended for creating a simple live dashboard. Install Node-RED along with the following packages:
 
 - [node-red-contrib-opcua](https://flows.nodered.org/node/node-red-contrib-opcua)
 - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
