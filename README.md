@@ -34,30 +34,40 @@ Additionally, install the [Pylon Viewer](https://www.baslerweb.com/en-us/softwar
 - [node-red-contrib-opcua](https://flows.nodered.org/node/node-red-contrib-opcua)
 - [node-red-dashboard](https://flows.nodered.org/node/node-red-dashboard)
 
-Access Node-RED at:
+You can start Node-RED by typing `node-red` in the command window and access it at:
 
 - Flow management: http://localhost:1880/
 - Dashboard view: http://localhost:1880/ui
 
 ## Explanation of the files
 
-**[src/camera.py](src/camera.py):** This file contains the camera class, which provides the implementation for interfacing with an industrial camera using the pypylon library. It includes methods for initializing the camera, capturing images, and managing camera settings. 
+### Data acquisition
 
-**[src/calibration_auto.py](src/calibration_auto.py):** This file is used for autmomatic calibrating the camera. You need to run this script with reasonable starting values. Once you have obtained your settings, make sure to copy them to the script you used for experiments.
+Files related to data acquisition are located in the **[src/acquisition/](src/acquisition/)** directory and include the following:
 
-**[src/calibration_manual.py](src/calibration_manual.py):** This file is used for manually calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the procedure and obtained the settings, make sure to copy them to your script used for experiments.
+**[src/acquisition/camera.py](src/acquisition/camera.py):** This file contains the camera class, which provides the implementation for interfacing with an industrial camera using the pypylon library. It includes methods for initializing the camera, capturing images, and managing camera settings. 
 
-**[src/opcua_local_server.py](src/opcua_local_server.py):** Sets up a local OPC UA server, captures color values, and makes them available for external access.
+**[src/calibration_auto.py](src/acquisition/calibration_auto.py):** This file is used for autmomatic calibrating the camera. You need to run this script with reasonable starting values. Once you have obtained your settings, make sure to copy them to the script you used for experiments.
 
-**[src/opcua_remote_server.py](src/opcua_remote_server.py):** Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
+**[src/acquisition/calibration_manual.py](src/acquisition/calibration_manual.py):** This file is used for manually calibrating the camera. You need to run this script and adjust the settings to achieve the target color values. This process typically involves multiple runs and adjustments to fine-tune the settings. For detailed instructions on the calibration procedure, see the section "Calibration Procedure". Once you have finalized the procedure and obtained the settings, make sure to copy them to your script used for experiments.
 
-**[src/node-red/local_server_dashboard.json](src/node-red/local_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the local OPC UA server.
+**[src/acquisition/opcua_local_server.py](src/acquisition/opcua_local_server.py):** Sets up a local OPC UA server, captures color values, and makes them available for external access.
 
-**[src/node-red/remote_server_dashboard.json](src/node-red/remote_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the remote OPC UA server.
+**[src/acquisition/opcua_remote_server.py](src/acquisition/opcua_remote_server.py):** Connects to an external OPC UA server, captures color values, and writes them to the server (e.g., an industrial PLC).
 
-**[src/benchmark/color_transformations.m](src/benchmark/color_transformations.m):** MATLAB script for checking the implemented color transformations in the camera class from linear RGB to CIEXYZ and CIELAB color values.
+**[src/acquisition/node-red/local_server_dashboard.json](src/acquisition/node-red/local_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the local OPC UA server.
 
-**[src/analysis/](src/analysis/):** This folder contains templates for data analysis and has its own README file. 
+**[src/acquisition/node-red/remote_server_dashboard.json](src/acquisition/node-red/remote_server_dashboard.json):** A simple dashboard for Node-RED, displaying real-time color values from the remote OPC UA server.
+
+### Data analysis
+
+Files related to data analysis are located in the **[src/analysis/](src/analysis/)** directory and include the following:
+
+**[candy.m](candy.m):** MATLAB library containing standardized functions.
+
+**[rtd.m](rtd.m):** MATLAB script to extract the residence time distribution and its properties from the acquired data.
+
+The analysis files provided in this folder should be considered as templates and are fully functional with the latest version of the CSV format. You can use these files for data analysis or to quickly gain insights into your data. Store these files together with your dataset and adjust them if needed. If you add new functionality or create new templates please push these updates to this repository so that others can also benefit from them.
 
 ## Camera Network Connection (GigE Optimization)
 

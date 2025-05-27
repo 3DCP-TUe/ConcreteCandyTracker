@@ -1,6 +1,8 @@
+% MATLAB script for checking the implemented color transformations in 
+% the camera class from linear RGB to CIEXYZ and CIELAB color values.
+
 clear all;
 format short
-
 
 %% Define linear RGB color values
 
