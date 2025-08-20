@@ -23,6 +23,10 @@ path = mfilename('fullpath');
 [filepath, name, ext] = fileparts(path);
 cd(filepath);
 
+%% Add lib
+
+addpath('lib');
+
 %% Import data
 
 data = readtable('20240506_Tracer_MAI_MULTIMIX.csv');
