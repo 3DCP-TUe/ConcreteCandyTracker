@@ -45,8 +45,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %       - Input time vectors must be sorted; the function will throw an error otherwise.
 %       - Baseline and scaling windows are specified in the same units as the
 %         'Time' column in the data table.
-
-
 function response = get_normalized_step_down_response(step_down_time, data, window, window_start, window_end)
 
     % Check if column concentration is defined

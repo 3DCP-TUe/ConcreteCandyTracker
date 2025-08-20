@@ -46,7 +46,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %         start and end windows.
 %       - The RTD is normalized by the area under the corrected concentration curve.
 %       - Missing columns (R, G, B, X, Y, Z, L, a, b) are automatically added as NaN.
-
 function [rtd, area] = get_rtd(impulse_time, data, window, window_start, window_end)
         
     % Check if column concentration is defined

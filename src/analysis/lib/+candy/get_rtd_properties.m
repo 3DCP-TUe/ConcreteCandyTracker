@@ -43,7 +43,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %   Example:
 %       [rtds, areas] = get_rtd(impulse_times, data, window, window_start, window_end);
 %       properties = get_rtd_properties(impulse_times, rtds, areas);
-
 function properties = get_rtd_properties(impulse_times, rtds, areas)
     
     % Initialize table with properties

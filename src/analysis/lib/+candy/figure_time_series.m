@@ -30,7 +30,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %         correctly; it is deleted before returning the figure handle.
 %       - The figure size and layout are predefined for consistent
 %         formatting in publications.
-
 function fig = figure_time_series(xticks, xlimits)
     
     % Initialize figure

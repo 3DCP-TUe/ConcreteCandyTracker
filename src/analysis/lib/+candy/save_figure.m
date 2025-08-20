@@ -20,7 +20,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %       f = figure;
 %       plot(1:10, rand(1,10));
 %       save_figure(f, 'my_plot.pdf');
-
 function [] = save_figure(fig, name) 
     width = fig.Position(3);
     height = fig.Position(4);

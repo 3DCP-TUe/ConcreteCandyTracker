@@ -41,8 +41,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %   Example:
 %       responses = get_normalized_step_up_response(step_up_time, data, window, window_start, window_end);
 %       properties = get_step_up_properties(step_up_times, responses);
-
-
 function properties = get_step_up_properties(times, responses)
     
     % Initialize table with properties

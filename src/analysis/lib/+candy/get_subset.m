@@ -33,7 +33,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %
 %   Example:
 %       subset = get_subset(step_up_time, data, [seconds(0) seconds(600)]);
-
 function subset = get_subset(start_time, data, window)
             
     % Ensure input windows are sorted

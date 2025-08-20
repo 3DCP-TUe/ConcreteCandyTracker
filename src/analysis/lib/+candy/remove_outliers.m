@@ -27,7 +27,6 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %
 %   Example:
 %       [clean_data, n_removed] = remove_outliers(data, 5, 3);
-
 % Removes the outliers
 function [data, n] = remove_outliers(data, k, sigma)
     
