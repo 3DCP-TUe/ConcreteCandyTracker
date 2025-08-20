@@ -57,8 +57,8 @@ Files related to data acquisition are located in the **[src/acquisition/](src/ac
 
 Files related to data analysis are located in the **[src/analysis/](src/analysis/)** directory and include the following files and folders:
 
-- **[candy.m](candy.m):** MATLAB library containing standardized functions.
-- **[rtd.m](rtd.m):** MATLAB script to extract the residence time distribution and its properties from the acquired data.
+- **[lib](src/analysis/lib):** MATLAB library containing standardized functions.
+- **[rtd.m](src/analysis/rtd.m):** MATLAB script to extract the residence time distribution and its properties from the acquired data.
 
 The analysis files provided in this folder should be considered as templates and are fully functional with the latest version of the CSV format. You can use these files for data analysis or to quickly gain insights into your data. Store these files together with your dataset and adjust them if needed. If you add new functionality or create new templates please push these updates to this repository so that others can also benefit from them.
 
