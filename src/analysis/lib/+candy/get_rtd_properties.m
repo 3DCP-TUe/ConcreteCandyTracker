@@ -16,7 +16,7 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %   Inputs:
 %       impulse_times - Vector of impulse times corresponding to each RTD
 %       rtds          - Cell array of RTD tables, each table must include
-%                       'time', 'time_response', and 'rtd' columns
+%                       'time', 'time_response', and 'value' columns
 %       areas         - Vector of areas under the RTD curves, used for
 %                       normalization reference
 %
@@ -63,12 +63,12 @@ function properties = get_rtd_properties(impulse_times, rtds, areas)
         subset.dt = [0; diff(seconds(subset.time))];
         
         % Mean and variance
-        ave = duration(0, 0, sum(seconds(subset.time_response) .* subset.rtd .* subset.dt));
-        var = duration(0, 0, max(0, sum(seconds(subset.time_response).^2 .* subset.rtd .* subset.dt) - seconds(ave)^2)); % Ensure non-negative
+        ave = duration(0, 0, sum(seconds(subset.time_response) .* subset.value .* subset.dt));
+        var = duration(0, 0, max(0, sum(seconds(subset.time_response).^2 .* subset.value .* subset.dt) - seconds(ave)^2)); % Ensure non-negative
         sigma = duration(0, 0, sqrt(seconds(var)));
     
         % Percentiles
-        subset.cumulative = cumsum(subset.rtd .* subset.dt);
+        subset.cumulative = cumsum(subset.value .* subset.dt);
         percentiles = [0.01, 0.05, 0.50, 0.95, 0.99];
         percentiles_values = seconds(zeros(size(percentiles)));
         percentiles_values.Format = 'hh:mm:ss.SSS';

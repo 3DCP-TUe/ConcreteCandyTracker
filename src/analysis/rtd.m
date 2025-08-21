@@ -82,7 +82,7 @@ for i = 1:length(impulses)
     [temp, area] = candy.get_rtd(impulses(i), data, window, window_start, window_tail);
 
     % Plot 
-    plot(temp.time_response, temp.rtd*100, '.', 'MarkerSize', 0.5, 'Color', colors(i,:))
+    plot(temp.time_response, temp.value*100, '.', 'MarkerSize', 0.5, 'Color', colors(i,:))
 
     % Store RTD and area
     rtds{i} = temp;
