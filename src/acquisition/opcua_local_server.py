@@ -9,7 +9,7 @@
 #
 # For license details, see the LICENSE file in the project root.
 
-"""Sets up and connects a camerate to a local OPC UA server for data acquisition.
+"""Sets up and connects a camera to a local OPC UA server for data acquisition.
 
 Sets up a local OPC UA server, captures color values, and makes them available for 
 external access.
