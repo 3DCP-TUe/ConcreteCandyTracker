@@ -9,7 +9,7 @@
 #
 # For license details, see the LICENSE file in the project root.
 
-"""Connects a camera to an remote OPC UA server for data acquisition.
+"""Connects a camera to an external OPC UA server for data acquisition.
 
 Connects to an external OPC UA server, captures color values, and writes them to the 
 server (e.g., an industrial PLC).
