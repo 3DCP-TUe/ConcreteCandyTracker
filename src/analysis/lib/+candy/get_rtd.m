@@ -1,10 +1,15 @@
-%{
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is 
-licensed under the terms of GNU General Public License as published by 
-the Free Software Foundation. For more information and the LICENSE file, 
-see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
-%}
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Concrete Candy Tracker
+% Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+%
+% Copyright (c) 2023-2025 Endhoven University of Technology
+%
+% Authors:
+%   - Arjen Deetman (2023-2025)
+%
+% For license details, see the LICENSE file in the project root.
 
+function [rtd, area] = get_rtd(impulse_time, data, window, window_start, window_end)
 % GET_RTD Computes the Residence Time Distribution (RTD) from impulse response
 %
 %   [rtd, area] = GET_RTD(impulse_time, data, window, window_start, window_end)
@@ -46,8 +51,9 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %         start and end windows.
 %       - The RTD is normalized by the area under the corrected concentration curve.
 %       - Missing columns (R, G, B, X, Y, Z, L, a, b) are automatically added as NaN.
-function [rtd, area] = get_rtd(impulse_time, data, window, window_start, window_end)
-        
+    
+%------------- BEGIN CODE --------------
+
     % Check if column concentration is defined
     if ~ismember("concentration", data.Properties.VariableNames)
         error("Column 'concentration' is missing in the dataset.");

@@ -1,10 +1,15 @@
-%{
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is 
-licensed under the terms of GNU General Public License as published by 
-the Free Software Foundation. For more information and the LICENSE file, 
-see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
-%}
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Concrete Candy Tracker
+% Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+%
+% Copyright (c) 2023-2025 Endhoven University of Technology
+%
+% Authors:
+%   - Arjen Deetman (2023-2025)
+%
+% For license details, see the LICENSE file in the project root.
 
+function [] = save_figure(fig, name) 
 % SAVE_FIGURE Saves a figure as a PDF with exact figure dimensions
 %
 %   SAVE_FIGURE(fig, name)
@@ -20,7 +25,9 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %       f = figure;
 %       plot(1:10, rand(1,10));
 %       save_figure(f, 'my_plot.pdf');
-function [] = save_figure(fig, name) 
+
+%------------- BEGIN CODE --------------
+
     width = fig.Position(3);
     height = fig.Position(4);
     set(gcf, 'PaperPosition', [0 0 width height]);

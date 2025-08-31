@@ -1,10 +1,15 @@
-%{
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is 
-licensed under the terms of GNU General Public License as published by 
-the Free Software Foundation. For more information and the LICENSE file, 
-see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
-%}
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Concrete Candy Tracker
+% Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+%
+% Copyright (c) 2023-2025 Endhoven University of Technology
+%
+% Authors:
+%   - Arjen Deetman (2023-2025)
+%
+% For license details, see the LICENSE file in the project root.
 
+function response = get_normalized_step_up_response(step_up_time, data, window, window_start, window_end)
 % GET_NORMALIZED_STEP_UP_RESPONSE Normalizes step-up response data
 %
 %   response = GET_NORMALIZED_STEP_UP_RESPONSE(step_up_time, data, window, window_start, window_end)
@@ -45,7 +50,8 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %       - Input time vectors must be sorted; the function will throw an error otherwise.
 %       - Baseline (window_start) and scaling (window_end) windows are specified in
 %         the same units as the 'Time' column in the data table.
-function response = get_normalized_step_up_response(step_up_time, data, window, window_start, window_end)
+
+%------------- BEGIN CODE --------------
 
     % Check if column concentration is defined
     if ~ismember("concentration", data.Properties.VariableNames)

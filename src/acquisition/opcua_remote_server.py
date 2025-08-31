@@ -1,9 +1,15 @@
-"""
-Concrete Candy Tracker
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Concrete Candy Tracker
+# Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+#
+# Copyright (c) 2023-2025 Endhoven University of Technology
+#
+# Authors:
+#   - Arjen Deetman (2023-2025)
+#
+# For license details, see the LICENSE file in the project root.
 
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is licensed under the 
-terms of GNU General Public License as published by the Free Software Foundation. For more 
-information and the LICENSE file, see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
+"""Connects a camera to an remote OPC UA server for data acquisition.
 
 Connects to an external OPC UA server, captures color values, and writes them to the 
 server (e.g., an industrial PLC).

@@ -1,10 +1,15 @@
-%{
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is 
-licensed under the terms of GNU General Public License as published by 
-the Free Software Foundation. For more information and the LICENSE file, 
-see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
-%}
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Concrete Candy Tracker
+% Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+%
+% Copyright (c) 2023-2025 Endhoven University of Technology
+%
+% Authors:
+%   - Arjen Deetman (2023-2025)
+%
+% For license details, see the LICENSE file in the project root.
 
+function properties = get_rtd_properties(impulse_times, rtds, areas)
 % GET_RTD_PROPERTIES Computes statistical properties of Residence Time Distributions (RTDs)
 %
 %   properties = GET_RTD_PROPERTIES(impulse_times, rtds, areas)
@@ -43,8 +48,9 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %   Example:
 %       [rtds, areas] = get_rtd(impulse_times, data, window, window_start, window_end);
 %       properties = get_rtd_properties(impulse_times, rtds, areas);
-function properties = get_rtd_properties(impulse_times, rtds, areas)
-    
+
+%------------- BEGIN CODE --------------
+
     % Initialize table with properties
     types = ["string", "string", "double", "duration", ...
         "duration", "duration", repmat("duration", 1, 5)];

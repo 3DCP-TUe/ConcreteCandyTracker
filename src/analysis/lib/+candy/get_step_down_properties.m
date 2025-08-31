@@ -1,10 +1,15 @@
-%{
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is 
-licensed under the terms of GNU General Public License as published by 
-the Free Software Foundation. For more information and the LICENSE file, 
-see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
-%}
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Concrete Candy Tracker
+% Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+%
+% Copyright (c) 2023-2025 Endhoven University of Technology
+%
+% Authors:
+%   - Arjen Deetman (2023-2025)
+%
+% For license details, see the LICENSE file in the project root.
 
+function properties = get_step_down_properties(times, responses)
 % GET_STEP_DOWN_PROPERTIES Computes statistical properties of step-down responses
 %
 %   properties = GET_STEP_DOWN_PROPERTIES(times, responses)
@@ -41,8 +46,9 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %   Example:
 %       responses = get_normalized_step_down_response(step_down_time, data, window, window_start, window_end);
 %       properties = get_step_down_properties(step_down_times, responses);
-function properties = get_step_down_properties(times, responses)
-    
+
+%------------- BEGIN CODE --------------
+
     % Initialize table with properties
     types = ["string", "string", "duration", ...
         "duration", "duration", repmat("duration", 1, 5)];

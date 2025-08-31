@@ -1,10 +1,15 @@
-%{
-This file is part of Concrete Candy Tracker. Concrete Candy Tracker is 
-licensed under the terms of GNU General Public License as published by 
-the Free Software Foundation. For more information and the LICENSE file, 
-see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
-%}
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Concrete Candy Tracker
+% Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
+%
+% Copyright (c) 2023-2025 Endhoven University of Technology
+%
+% Authors:
+%   - Arjen Deetman (2023-2025)
+%
+% For license details, see the LICENSE file in the project root.
 
+function fig = figure_time_series(xticks, xlimits)
 % FIGURE_TIME_SERIES Creates a standardized time series figure layout
 %
 %   fig = FIGURE_TIME_SERIES(xticks, xlimits)
@@ -30,8 +35,9 @@ see <https://github.com/3DCP-TUe/ConcreteCandyTracker>.
 %         correctly; it is deleted before returning the figure handle.
 %       - The figure size and layout are predefined for consistent
 %         formatting in publications.
-function fig = figure_time_series(xticks, xlimits)
-    
+
+%------------- BEGIN CODE --------------
+
     % Initialize figure
     fig = figure;
     hold on
