@@ -10,46 +10,50 @@
 % For license details, see the LICENSE file in the project root.
 
 function response = get_normalized_step_up_response(step_up_time, data, window, window_start, window_end)
-% GET_NORMALIZED_STEP_UP_RESPONSE Normalizes step-up response data
+%GET_NORMALIZED_STEP_UP_RESPONSE Normalizes step-up response data
 %
-%   response = GET_NORMALIZED_STEP_UP_RESPONSE(step_up_time, data, window, window_start, window_end)
+% This function extracts a subset of experimental data around a step-up
+% event, corrects for baseline offsets, and normalizes the response. It
+% ensures that the concentration values are shifted to a zero baseline and
+% scaled according to the average post-step-up response.
 %
-%   This function extracts a subset of experimental data around a step-up
-%   event, corrects for baseline offsets, and normalizes the response. It
-%   ensures that the concentration values are shifted to zero baseline and
-%   scaled according to the average post-step-up response.
+% Syntax: response = get_normalized_step_up_response(step_up_time, data, window, window_start, window_end)
 %
-%   Inputs:
-%       step_up_time - Scalar or datetime specifying the step-up event time
-%       data         - Table containing the experimental data, must include
-%                      a 'concentration' column and a 'Time' or 'time' column
-%       window       - Two-element vector specifying the time window around
-%                      the step-up event to consider
-%       window_start - Two-element vector specifying the start window for
-%                      baseline normalization
-%       window_end   - Two-element vector specifying the end window for
-%                      scaling normalization
+% Inputs:
+%   step_up_time - Scalar duration specifying the step-up event time
+%   data         - Table containing the experimental data; must include a
+%                  'concentration' column and a 'Time' or 'time' column
+%   window       - Two-element duration vector specifying the time window
+%                  around the step-up event to consider
+%   window_start - Two-element duration vector specifying the start window
+%                  for baseline normalization
+%   window_end   - Two-element duration vector specifying the end window
+%                  for scaling normalization
 %
-%   Outputs:
-%       response     - Table containing normalized response and auxiliary
-%                      columns suitable for downstream analysis. Columns:
-%                        - time: original time values
-%                        - time_response: time relative to step-up
-%                        - value: normalized concentration
-%                        - R, G, B, X, Y, Z, L, a, b: additional columns
-%                          filled with NaNs if missing in input
+% Outputs:
+%   response     - Table containing normalized response and auxiliary
+%                  columns suitable for downstream analysis. Columns:
+%                    - time          : original time values
+%                    - time_response : time relative to step-up (duration)
+%                    - value         : normalized concentration (unitless)
+%                    - R, G, B, X, Y, Z, L, a, b : additional columns
+%                      filled with NaNs if missing in input
 %
-%   Example:
-%       data = readtable('experiment.csv');
-%       step_up_time = datetime(2025,8,20,12,0,0);
-%       response = get_normalized_step_up_response(step_up_time, data, [0 60], [0 10], [50 60]);
+% Notes:
+%   - If the input table lacks 'Time' but has 'time', it is copied to 'Time'.
+%   - Input time vectors must be sorted ascending; otherwise an error is thrown.
+%   - Missing columns (R, G, B, X, Y, Z, L, a, b) are created and filled with NaN.
+%   - Baseline (subtraction) is computed over WINDOW_START; scaling (division)
+%     is computed over WINDOW_END.
+%   - All windows and STEp_UP_TIME are expressed as durations, consistent with
+%     the 'time_response' axis returned by the subset.
 %
-%   Notes:
-%       - The function automatically creates missing columns (R, G, B, X, Y, Z, L, a, b)
-%         and fills them with NaN to ensure compatibility with downstream tools.
-%       - Input time vectors must be sorted; the function will throw an error otherwise.
-%       - Baseline (window_start) and scaling (window_end) windows are specified in
-%         the same units as the 'Time' column in the data table.
+% Example:
+%   data = readtable('experiment.csv');
+%   step_up_time = seconds(0);
+%   response = get_normalized_step_up_response(step_up_time, data, ...
+%     [seconds(0) seconds(60)], [seconds(0) seconds(10)], [seconds(50) seconds(60)]);
+
 
 %------------- BEGIN CODE --------------
 

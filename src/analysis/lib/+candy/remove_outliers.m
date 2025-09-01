@@ -10,28 +10,33 @@
 % For license details, see the LICENSE file in the project root.
 
 function [data, n] = remove_outliers(data, k, sigma)
-% REMOVE_OUTLIERS Removes outliers from specified columns using Hampel filter
+%REMOVE_OUTLIERS Removes outliers from specified columns using Hampel filter
 %
-%   [data, n] = REMOVE_OUTLIERS(data, k, sigma)
+% This function identifies and removes outliers from the input table using
+% a Hampel filter applied to the columns 'L_', 'a_', 'b_', 'R', 'G', and 'B'.
+% Rows flagged as outliers in any of these columns are removed.
 %
-%   This function identifies and removes outliers from the input table
-%   using a Hampel filter on the columns 'L_', 'a_', 'b_', 'R', 'G', and 'B'.
+% Syntax: [data, n] = remove_outliers(data, k, sigma)
 %
-%   Inputs:
-%       data  - Table containing columns 'L_', 'a_', 'b_', 'R', 'G', 'B'
-%       k     - Window size for the Hampel filter (number of neighboring points)
-%       sigma - Threshold multiplier for standard deviation to identify outliers
+% Inputs:
+%   data  - Table containing numeric columns: 'L_', 'a_', 'b_', 'R', 'G', 'B'
+%   k     - Window size for the Hampel filter (number of neighboring points)
+%   sigma - Threshold multiplier for standard deviation to identify outliers
 %
-%   Outputs:
-%       data  - Table with outlier rows removed
-%       n     - Number of rows removed
+% Outputs:
+%   data  - Table with outlier rows removed
+%   n     - Number of rows removed
 %
-%   Notes:
-%       - Outliers are determined independently for each specified column.
-%       - Rows flagged as outliers in any column are removed from the table.
+% Notes:
+%   - Outliers are detected independently for each specified column using
+%     MATLABs hampel function.
+%   - A row is removed if it is flagged as an outlier in any of the columns.
+%   - Ensure the specified columns exist in the input table; otherwise, the
+%     function will throw an error.
 %
-%   Example:
-%       [clean_data, n_removed] = remove_outliers(data, 5, 3);
+% Example:
+%   [clean_data, n_removed] = remove_outliers(data, 5, 3);
+
 
 %------------- BEGIN CODE --------------
 

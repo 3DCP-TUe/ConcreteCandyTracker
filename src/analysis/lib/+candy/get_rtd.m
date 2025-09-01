@@ -10,47 +10,58 @@
 % For license details, see the LICENSE file in the project root.
 
 function [rtd, area] = get_rtd(impulse_time, data, window, window_start, window_end)
-% GET_RTD Computes the Residence Time Distribution (RTD) from impulse response
+%GET_RTD Computes the Residence Time Distribution (RTD) from impulse response
 %
-%   [rtd, area] = GET_RTD(impulse_time, data, window, window_start, window_end)
+% This function calculates the residence time distribution (RTD) from
+% experimental impulse-response data. It performs baseline correction,
+% normalizes the response by the area under the corrected curve, and
+% returns a table suitable for further analysis. All time quantities are
+% handled as MATLAB durations.
 %
-%   This function calculates the residence time distribution (RTD) from
-%   experimental impulse response data. It performs baseline correction,
-%   normalizes the response to the area under the curve, and returns a table
-%   suitable for further analysis.
+% Syntax: [rtd, area] = get_rtd(impulse_time, data, window, window_start, window_end)
 %
-%   Inputs:
-%       impulse_time - Scalar or datetime specifying the impulse event time
-%       data         - Table containing the experimental data, must include
-%                      a 'concentration' column and a 'Time' or 'time' column
-%       window       - Two-element vector specifying the time window around
-%                      the impulse event to consider
-%       window_start - Two-element vector specifying the start window for
-%                      baseline correction
-%       window_end   - Two-element vector specifying the end window for
-%                      baseline correction and normalization
+% Inputs:
+%   impulse_time - Scalar duration specifying the impulse event time
+%   data         - Table containing the experimental data; must include
+%                  a 'concentration' column and a 'Time' or 'time' column
+%                  (time stamps are durations and sorted ascending)
+%   window       - Two-element duration vector specifying the time window
+%                  around the impulse event to consider
+%   window_start - Two-element duration vector specifying the start window
+%                  used for baseline correction
+%   window_end   - Two-element duration vector specifying the end window
+%                  used for baseline correction and normalization
 %
-%   Outputs:
-%       rtd          - Table containing the normalized RTD and auxiliary
-%                      columns. Columns:
-%                        - time: original time values
-%                        - time_response: time relative to impulse
-%                        - rtd: normalized residence time distribution
-%                        - R, G, B, X, Y, Z, L, a, b: additional columns
-%                          filled with NaNs if missing in input
-%       area         - Scalar representing the area under the corrected concentration curve
+% Outputs:
+%   rtd          - Table containing the normalized RTD and auxiliary columns:
+%                    - time          : original time values (duration)
+%                    - time_response : time relative to impulse (duration)
+%                    - value         : normalized RTD (unitless)
+%                    - R, G, B, X, Y, Z, L, a, b : added if missing, filled with NaN
+%   area         - Scalar double representing the area under the corrected
+%                  concentration curve used for normalization (units:
+%                  concentration·seconds)
 %
-%   Example:
-%       data = readtable('experiment.csv');
-%       impulse_time = datetime(2025,8,20,12,0,0);
-%       [rtd, area] = get_rtd(impulse_time, data, [0 60], [0 10], [50 60]);
+% Notes:
+%   - If the input table lacks 'Time' but has 'time', it is copied to 'Time'.
+%   - Input time vectors must be sorted ascending; otherwise an error is thrown.
+%   - Baseline correction level is the average of the mean concentration in
+%     WINDOW_START and the mean in WINDOW_END (both computed with 'omitnan').
+%   - Normalization area is computed over the interval starting at the sample
+%     closest to time_response == 0 up to WINDOW_END(2).
+%   - If AREA == 0, the RTD (value) is set to zeros to avoid division by zero.
+%   - Missing columns (R, G, B, X, Y, Z, L, a, b) are created and filled with NaN.
+%   - All windows and IMPULSE_TIME are durations, consistent with the
+%     'time_response' axis returned by the extracted subset.
+%   - NaNs in the concentration series propagate into AREA and the RTD unless
+%     removed by preprocessing; ensure data is cleaned as needed.
 %
-%   Notes:
-%       - Input time vectors must be sorted; the function will throw an error otherwise.
-%       - Baseline correction is computed as the average of the means in the
-%         start and end windows.
-%       - The RTD is normalized by the area under the corrected concentration curve.
-%       - Missing columns (R, G, B, X, Y, Z, L, a, b) are automatically added as NaN.
+% Example:
+%   data = readtable('experiment.csv');
+%   impulse_time = seconds(0);
+%   [rtd, area] = get_rtd(impulse_time, data, ...
+%       [seconds(0) seconds(60)], [seconds(0) seconds(10)], [seconds(50) seconds(60)]);
+
     
 %------------- BEGIN CODE --------------
 

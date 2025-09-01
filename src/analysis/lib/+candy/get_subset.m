@@ -10,34 +10,40 @@
 % For license details, see the LICENSE file in the project root.
 
 function subset = get_subset(start_time, data, window)
-% GET_SUBSET Extracts a time-windowed subset of data relative to a start time
+%GET_SUBSET Extracts a time-windowed subset of data relative to a start time
 %
-%   subset = GET_SUBSET(start_time, data, window)
+% This function extracts a portion of a dataset based on a time window
+% relative to a specified start time (e.g., the time an impulse or step
+% input is applied). The output includes a new column 'response_time'
+% representing time relative to the start event. All time quantities are
+% handled as MATLAB durations.
 %
-%   This function extracts a portion of a dataset based on a time window
-%   relative to a specified start time (e.g., the time an impulse or step
-%   input is applied). The output includes a new column 'response_time'
-%   representing time relative to the start event.
+% Syntax: subset = get_subset(start_time, data, window)
 %
-%   Inputs:
-%       start_time - Duration or datetime indicating the reference start time
-%       data       - Table containing time-series data. Must include a column
-%                    named 'Time' or 'time'.
-%       window     - Two-element vector [t_start, t_end] specifying the relative
-%                    time window (in the same units as data.Time) to extract
+% Inputs:
+%   start_time - Scalar duration indicating the reference start time
+%   data       - Table containing time-series data; must include a column
+%                named 'Time' or 'time' (durations, sorted ascending)
+%   window     - Two-element duration vector [t_start t_end] specifying the
+%                relative time window to extract
 %
-%   Outputs:
-%       subset     - Table containing only the rows within the specified window.
-%                    Adds a 'response_time' column representing time relative
-%                    to start_time.
+% Outputs:
+%   subset     - Table containing only the rows within the specified window;
+%                adds a 'response_time' column (duration) representing time
+%                relative to START_TIME
 %
-%   Notes:
-%       - The input time column must be sorted in ascending order.
-%       - The window vector must be sorted: window(1) < window(2).
-%       - The function will throw an error if the resulting subset is empty.
+% Notes:
+%   - If the input table lacks 'Time' but has 'time', it is copied to 'Time'.
+%   - The input time column must be sorted ascending.
+%   - The window vector must be sorted: window(1) < window(2).
+%   - Indices are selected by nearest samples to START_TIME + window(1:2)
+%     and clamped to table bounds.
+%   - The function errors if the resulting subset is empty.
+%   - The 'response_time' format is set to 'hh:mm:ss.SSS'.
 %
-%   Example:
-%       subset = get_subset(step_up_time, data, [seconds(0) seconds(600)]);
+% Example:
+%   subset = get_subset(seconds(0), data, [seconds(0) seconds(600)]);
+
 
 %------------- BEGIN CODE --------------
 

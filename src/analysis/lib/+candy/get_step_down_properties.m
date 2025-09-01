@@ -10,42 +10,57 @@
 % For license details, see the LICENSE file in the project root.
 
 function properties = get_step_down_properties(times, responses)
-% GET_STEP_DOWN_PROPERTIES Computes statistical properties of step-down responses
+%GET_STEP_DOWN_PROPERTIES Computes statistical properties of step-down responses
 %
-%   properties = GET_STEP_DOWN_PROPERTIES(times, responses)
+% This function calculates key statistical characteristics of step-down
+% response curves, including mean, variance, standard deviation, and selected
+% percentiles, and returns them in a table suitable for further analysis or
+% reporting. All time quantities are handled as MATLAB durations.
 %
-%   This function calculates key statistical characteristics of step-down
-%   response curves, including mean, variance, standard deviation, and selected
-%   percentiles. The results are returned as a table for further analysis.
+% Syntax: properties = get_step_down_properties(times, responses)
 %
-%   Inputs:
-%       times      - Vector of step-down times corresponding to each response
-%       responses  - Cell array of step-down response tables, each table must
-%                    include 'time', 'time_response', and 'value' columns
+% Inputs:
+%   times     - Vector of durations specifying the step-down time for each
+%               response (one element per table in RESPONSES)
+%   responses - Cell array of step-down response tables; each table must contain:
+%                 - time          : duration timestamps (monotonic)
+%                 - time_response : duration relative time (typically starts at/near 0)
+%                 - value         : normalized response on a 0–1 scale
 %
-%   Outputs:
-%       properties - Table of response properties with the following columns:
-%                       - time: step-down time (string)
-%                       - file_name: placeholder for source filename
-%                       - mean: mean response time (duration)
-%                       - variance: variance of response time (duration)
-%                       - std: standard deviation (duration)
-%                       - p1: 1st percentile (duration)
-%                       - p5: 5th percentile (duration)
-%                       - p50: 50th percentile (median, duration)
-%                       - p95: 95th percentile (duration)
-%                       - p99: 99th percentile (duration)
+% Outputs:
+%   properties - Table with the following columns:
+%                 - time      : step-down time (string)
+%                 - file_name : placeholder for source filename ('-')
+%                 - mean      : mean response time (duration)
+%                 - variance  : variance of response time (duration)
+%                 - std       : standard deviation (duration)
+%                 - p1        : 1st percentile (duration)
+%                 - p5        : 5th percentile (duration)
+%                 - p50       : 50th percentile / median (duration)
+%                 - p95       : 95th percentile (duration)
+%                 - p99       : 99th percentile (duration)
 %
-%   Notes:
-%       - The step-down response values should be normalized (0-1 scale).
-%       - Percentiles are calculated based on the time when the normalized
-%         response reaches the corresponding fraction of the step-down.
-%       - Time is handled as MATLAB durations; statistical properties are
-%         returned as durations for convenience.
+% Notes:
+%   - Each response is trimmed to start at the sample closest to
+%     time_response == 0 before analysis.
+%   - The sample-wise integration step dt is computed from 'time' as
+%     dt = [0; diff(seconds(time))].
+%   - Responses are assumed normalized on [0, 1]; percentiles are reported
+%     as the first time where value < (1 - p), e.g., p50 is the half-time
+%     where value drops below 0.5.
+%   - Variance is constrained to be non-negative prior to square-rooting
+%     to compute the standard deviation.
 %
-%   Example:
-%       responses = get_normalized_step_down_response(step_down_time, data, window, window_start, window_end);
-%       properties = get_step_down_properties(step_down_times, responses);
+% Example:
+%   % Build a cell array of normalized step-down response tables (duration-based):
+%   t0 = seconds(0);
+%   resp1 = get_normalized_step_down_response(t0, data1, [seconds(0) seconds(120)], ...
+%                                             [seconds(0) seconds(10)], [seconds(90) seconds(120)]);
+%   resp2 = get_normalized_step_down_response(t0, data2, [seconds(0) seconds(120)], ...
+%                                             [seconds(0) seconds(10)], [seconds(90) seconds(120)]);
+%   responses = {resp1, resp2};
+%   times = [t0, t0];
+%   properties = get_step_down_properties(times, responses);
 
 %------------- BEGIN CODE --------------
 

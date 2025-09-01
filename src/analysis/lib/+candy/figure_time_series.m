@@ -10,31 +10,26 @@
 % For license details, see the LICENSE file in the project root.
 
 function fig = figure_time_series(xticks, xlimits)
-% FIGURE_TIME_SERIES Creates a standardized time series figure layout
+%FIGURE_TIME_SERIES Creates a time-series figure with custom x-axis ticks
 %
-%   fig = FIGURE_TIME_SERIES(xticks, xlimits)
+% This function generates a MATLAB figure preformatted for time-series
+% plotting. The figure has grid lines, boxed axes, large font size,
+% and a paper size suitable for publication. The x-axis ticks are 
+% formatted as clock time ('HH:MM').
 %
-%   This function initializes a figure for time series plotting with a
-%   standardized layout, grid, box, font size, and figure dimensions.
-%   The x-axis is formatted to display time in HH:MM format, and the axis
-%   limits are set according to the input range.
+% Syntax: fig = figure_time_series(xticks, xlimits) 
 %
-%   Inputs:
-%       xticks   - Array of datetime values specifying x-axis tick positions
-%       xlimits  - Two-element datetime array specifying x-axis limits
+% Inputs:
+%   xticks  - array of datetime values used as x-axis tick positions
+%   xlimits - two-element datetime array defining the x-axis limits
 %
-%   Outputs:
-%       fig      - Handle to the created figure
+% Outputs:
+%   fig - MATLAB figure handle for the generated plot
 %
-%   Example:
-%       t = datetime(2025,8,20,0,0,0):minutes(30):datetime(2025,8,20,12,0,0);
-%       fig = figure_time_series(t, [t(1), t(end)]);
-%
-%   Notes:
-%       - A temporary dummy plot is created to allow setting x-axis ticks
-%         correctly; it is deleted before returning the figure handle.
-%       - The figure size and layout are predefined for consistent
-%         formatting in publications.
+% Notes:
+%   - A temporary dummy plot is used to enable correct tick labeling 
+%     before actual data is plotted.
+%   - The figure size is set in inches for consistent export behavior.
 
 %------------- BEGIN CODE --------------
 
