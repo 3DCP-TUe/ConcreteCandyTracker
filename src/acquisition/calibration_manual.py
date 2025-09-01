@@ -2,7 +2,7 @@
 # Concrete Candy Tracker
 # Project: https://github.com/3DCP-TUe/ConcreteCandyTracker
 #
-# Copyright (c) 2023-2025 Endhoven University of Technology
+# Copyright (c) 2023-2025 Eindhoven University of Technology
 #
 # Authors:
 #   - Arjen Deetman (2023-2025)
