@@ -7,6 +7,15 @@
 		}
 	],
 
+	"contributors": [
+        {
+			"name": "Bos, Derk",
+			"affiliation": "Eindhoven University of Technology",
+			"orcid": "0000-0002-1668-2638"
+		}
+	],
+
+
 	"access_right": "open",
 
 	"license": "GPL-3.0",
