@@ -20,9 +20,9 @@
 
 	"license": "GPL-3.0",
 
-	"title": "Concrete Candy Tracker: Software for tracer experiments in concrete processing",
+	"title": "Concrete Candy Tracker: A software toolkit for colourant-based tracer experiments in concrete processing",
 
-	"description": "Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled 'An in-line dye tracer experiment to measure the residence time in continuous concrete processing'. The experiment uses a digital image processing (DIP) technique to detect a dye — Rhomadine B — which stains the concrete with a candy cane-like effect.",
+	"description": "Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled 'An in-line dye tracer experiment to measure the residence time in continuous concrete processing'. \n\nThe tool includes software for data acquisition and template files for analyzing the results, such as deriving residence time functions from the acquired data. The tracer experiment uses a digital image processing (DIP) technique to detect a dye or pigment used as tracer material. The name originates from the dye Rhodamine B, which was initially used during the development of the experiment, as it stained the concrete with a candy cane–like effect.",
 
 	"keywords": [
 		"tracer experiment",
@@ -32,7 +32,7 @@
 	],
 
 	"references": [
-		"Deetman, A., Bos, D., Blaakmeer, J. et al. An in-line dye tracer experiment to measure the residence time in continuous concrete processing. Mater Struct 57, 104 (2024). https://doi.org/10.1617/s11527-024-02378-y"
+		"A. Deetman, D. Bos, J. Blaakmeer, T. Salet, and S. Lucas. An in-line dye tracer experiment to measure the residence time in continuous concrete processing. Mater Struct 57, 104 (2024). https://doi.org/10.1617/s11527-024-02378-y"
 	],
 
 	"upload_type": "software"
