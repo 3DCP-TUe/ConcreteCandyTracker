@@ -1,6 +1,8 @@
 # Concrete Candy Tracker
 
-Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled "[An in-line dye tracer experiment to measure the residence time in continuous concrete processing](https://link.springer.com/article/10.1617/s11527-024-02378-y)". The experiment uses a digital image processing (DIP) technique to detect a dye — Rhomadine B — which stains the concrete with a candy cane-like effect.
+Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled "[An in-line dye tracer experiment to measure the residence time in continuous concrete processing](https://link.springer.com/article/10.1617/s11527-024-02378-y)". 
+
+The tool includes software for data acquisition and template files for analyzing the results, such as deriving residence time functions from the acquired data. The tracer experiment uses a digital image processing (DIP) technique to detect a dye or pigment used as tracer material. The name originates from the dye Rhodamine B, which was initially used during the development of the experiment, as it stained the concrete with a candy cane–like effect.
 
 ## Hardware requirements
 
