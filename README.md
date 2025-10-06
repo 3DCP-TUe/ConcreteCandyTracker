@@ -1,4 +1,11 @@
 # Concrete Candy Tracker
+  
+<p align="left"> 
+  <img src="https://img.shields.io/github/v/release/3DCP-TUe/ConcreteCandyTracker?label=stable">
+  <img src="https://img.shields.io/github/v/release/3DCP-TUe/ConcreteCandyTracker?label=latest&include_prereleases">
+  <img src="https://img.shields.io/github/license/3DCP-TUe/ConcreteCandyTracker?">
+  <a href="https://zenodo.org/doi/10.5281/zenodo.17277859"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.17277860.svg" alt="DOI"></a>
+</p>
 
 Concrete Candy Tracker is a software package developed for conducting tracer experiments in concrete processing. The experiment is described in detail in the paper titled "[An in-line dye tracer experiment to measure the residence time in continuous concrete processing](https://link.springer.com/article/10.1617/s11527-024-02378-y)". 
 
