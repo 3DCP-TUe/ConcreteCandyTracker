@@ -132,7 +132,12 @@ Additional steps in case a bandpass filter is used:
 - Mount the bandpass filter.
 - Reattach the polarization filter.
 - Ensure the polarization filter is in the correct orientation.
-- Recalibrate the gain value with an 18% grey card. Adjust the gain value to scale the L* value of the CIELAB color space to 50%. Use the already measured white reference point for this step. 
+- Recalibrate the gain value with an 18% grey card. Adjust the gain value to scale the L* value of the CIELAB color space to 50%. Use the already measured white reference point for this step.
+
+Store your setup information and calibrated values:
+
+- Store the information about the used setup, along with the data from the experiment. A template metadata file with the calibrated values, as well as the used hardware and software, is provided [here](database_template/setupinfo/metadata.yml). 
+- After calibration, make short measurements (e.g., 60 seconds) on the grey and white card and store these as well. 
 
 ## Version numbering
 Concrete Candy Tracker uses the following [Semantic Versioning](https://semver.org/) scheme: 
