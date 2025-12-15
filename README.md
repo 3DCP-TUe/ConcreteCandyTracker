@@ -148,6 +148,37 @@ x.0.x ---> MINOR version when you add functionality in a backward-compatible man
 x.x.0 ---> PATCH version when you make backward-compatible bug fixes
 ```
 
+## How to cite
+
+The in-line tracer experiment is fully detailed in its corresponding journal paper. Please use this paper as a reference for the developed tracer experiment. The BibTeX entry is provided below:
+
+```bibtex
+@article{Deetman2024,
+  author = {A. Deetman and D. Bos and J. Blaakmeer and T. Salet and S. Lucas},
+  title = {An in-line dye tracer experiment to measure the residence time in continuous concrete processing},
+  journal = {Materials and Structures},
+  volume = {57},
+  number = {104},
+  year = {2024}
+  doi = {10.1617/s11527-024-02378-y},
+}
+```
+
+Concrete Candy Tracker is a software toolkit that implements these tracer experiments. We kindly ask you to cite it if used or built upon. For general references to this software package, the Zenodo record can be cited. The BibTeX entry is provided below:
+
+```bibtex
+@misc{ConcreteCandyTracker_Zenodo,
+    title = {{C}oncrete {C}andy {T}racker: {A} software toolkit for tracer experiments in concrete processing},
+    author = {A. Deetman and D. Bos},
+    publisher = {Zenodo},
+    year = {2025},
+    doi = {10.5281/zenodo.17277859},
+    note = {Zenodo. doi:10.5281/zenodo.17277859}
+}
+```
+
+On our [Zenodo page](https://doi.org/10.5281/zenodo.17277859), you can find how to cite specific versions of the software.
+
 ## Funding
 
 This software could be developed and maintained with the financial support of the following projects:
